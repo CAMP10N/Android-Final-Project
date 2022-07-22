@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "32924647693",
+    "project_id": "final-project-messenger",
+    "storage_bucket": "final-project-messenger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32924647693:android:49300d594dd5808737b044",
+        "android_client_info": {
+          "package_name": "ge.tarustashvili_tbabunashvili.finalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32924647693-miblhsoeqord1hjptduofpibi1c3a86p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ge.tarustashvili_tbabunashvili.finalproject",
+            "certificate_hash": "a859bfe3519f10be8de86fac1cf4e69250b5bff9"
+          }
+        },
+        {
+          "client_id": "32924647693-ro7ic22eiesb79tq6b7h0748tvr0nps8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz1GvzTAvm5GN-aWulCQlcyq5o-WpnczQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "32924647693-ro7ic22eiesb79tq6b7h0748tvr0nps8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Final Project</string>
+    <string name="nick">Enter your nickname</string>
+    <string name="password">Enter your password</string>
+    <string name="login">Sign in</string>
+    <string name="reg">Sign up</string>
+    <string name="nreg">Not registered?</string>
+    <string name="job">What I do</string>
 </resources>
