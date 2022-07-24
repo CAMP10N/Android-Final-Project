@@ -14,4 +14,6 @@
     <string name="sign_out">SIGN OUT</string>
     <string name="name">name</string>
     <string name="position">position</string>
+    <string name="message">Message</string>
+    <string name="back_button">back button</string>
 </resources>
