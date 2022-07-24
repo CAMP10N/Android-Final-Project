@@ -40,14 +40,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="64dp"
                         android:text="Sayed Efitaz"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginTop="50dp"
-                        android:layout_marginStart="30dp"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/toolbarposition"
@@ -58,6 +58,21 @@
                         android:textColor="@color/light"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/toolbarname" />
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/chat_profile_pic"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ic_launcher_background"
+                        app:civ_border_color="@color/application_blue"
+                        app:civ_border_width="0dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_color="@color/application_blue_variant"
+                        app:civ_shadow_radius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="5dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar
@@ -84,6 +99,20 @@
                         android:textColor="@color/white"
                         android:visibility="invisible" />
 
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/chat_toolbar_profile_pic"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="35dp"
+                        android:src="@drawable/ic_launcher_background"
+                        android:visibility="invisible"
+                        app:civ_border_color="@color/application_blue"
+                        app:civ_border_width="2dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_color="@color/application_blue_variant"
+                        app:civ_shadow_radius="0dp" />
+
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -105,23 +134,41 @@
             android:layout_height="wrap_content" />
     </ScrollView>
 
-    <EditText
-        android:id="@+id/search"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginHorizontal="25dp"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/search_border"
-        android:backgroundTint="#C7EFF4F4"
-        android:hint="@string/message"
-        android:importantForAutofill="no"
-        android:inputType="textLongMessage"
-        android:paddingStart="@dimen/search_padding"
-        android:paddingEnd="@dimen/search_padding"
-        android:textAlignment="textStart"
-        android:textColorHint="#6E6E6E"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/message_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_border"
+            android:backgroundTint="#C7EFF4F4"
+            android:hint="@string/message"
+            android:importantForAutofill="no"
+            android:inputType="textLongMessage"
+            android:paddingStart="@dimen/search_start_padding"
+            android:paddingEnd="@dimen/search_end_padding"
+            android:textAlignment="textStart"
+            android:textColorHint="#6E6E6E"
+            tools:ignore="TextContrastCheck" />
+
+        <ImageButton
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_brightness_1_24"
+            app:tint="@color/grey"
+            android:backgroundTint="@color/transparent"/>
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
