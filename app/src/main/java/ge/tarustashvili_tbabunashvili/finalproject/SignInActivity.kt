@@ -30,11 +30,11 @@ class SignInActivity : AppCompatActivity() {
 
 
     fun checkIfLogged() {
-        val user = firebaseAuth.currentUser
-        if (user != null) {
+//        val user = firebaseAuth.currentUser
+//        if (user != null) {
             startActivity(Intent(this, UserActivity::class.java))
             finish()
-        }
+//        }
     }
     fun onRegisterClick(view: View) {
         val intent = Intent(this, SignUpActivity::class.java)

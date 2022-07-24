@@ -8,5 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light">#EFF4F4</color>
-    <color name="signin">#0374FD</color>
+    <color name="application_blue">#5479F1</color>
+    <color name="application_blue_variant">#301277</color>
+    <color name="signin">#5479F1</color>
+    <color name="addbutton">#5479F1</color>
+    <color name="collapsedColor">#5479F1</color>
+    <color name="transparent">#00000000</color>
 </resources>
