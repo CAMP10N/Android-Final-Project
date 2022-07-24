@@ -63,18 +63,17 @@
         android:layout_marginTop="42dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="onUpdate"
         app:layout_constraintTop_toBottomOf="@id/pos"
         android:text="@string/update"
         android:textAllCaps="false"/>
 
     <Button
+        android:id="@+id/logout_button"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:backgroundTint="@color/white"
-        android:onClick="logout"
         android:text="@string/sign_out"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"

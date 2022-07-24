@@ -37,14 +37,14 @@ class UserActivity : AppCompatActivity() {
                 finish()
             }
         })
-
+        /*
         signedInViewModel.getCurrentUser().observe(this, Observer {
             if (it != null) {
                 (fragments[1] as SettingsFragment).setData(it)
             }   else {
                 Log.d("eeh","eeh")
             }
-        })
+        })*/
 
         bottomNavigationView = findViewById(R.id.bottom_nav_bar)
         bottomNavigationView.background = null
@@ -72,7 +72,7 @@ class UserActivity : AppCompatActivity() {
             true
         }
     }
-
+/*
     private val imageUploaded = 100
 
     fun uploadImage(view: View) {
@@ -87,7 +87,7 @@ class UserActivity : AppCompatActivity() {
             var user = (fragments[1] as SettingsFragment).getUpdatedInfo()
             signedInViewModel.uploadImage(User(username = user.username, nickname = user.nickname, job = user.job), imageUri!!)
         }
-    }
+    }*/
 
     override fun onStart() {
         super.onStart()
@@ -95,14 +95,14 @@ class UserActivity : AppCompatActivity() {
     }
 
 
-    fun logout(view: View) {
+   /* fun logout(view: View) {
         signedInViewModel.logOut()
-    }
-
+    }*/
+/*
     fun onUpdate(view: View) {
         var user = (fragments[1] as SettingsFragment).getUpdatedInfo()
         signedInViewModel.updateInfo(user)
-    }
+    }*/
 
 }
 
