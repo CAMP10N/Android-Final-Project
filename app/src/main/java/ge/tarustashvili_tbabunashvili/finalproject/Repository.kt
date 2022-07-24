@@ -67,9 +67,24 @@ class Repository (context: Context/*application: Application*/) {
         firebaseAuth.createUserWithEmailAndPassword(nickname,password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+                    Log.d("ha","shig")
                     userLiveData.postValue(firebaseAuth.currentUser);
                     val newUser = User(username = nickname, nickname = nickname.substringBefore("@android.com"), job = job)
+                    Log.d("shigxoargaq", firebaseAuth.currentUser?.uid!!)
                     users.child(firebaseAuth.currentUser?.uid!!).setValue(newUser)
+                        .addOnCompleteListener {
+                            Log.d("wtf", it.toString())
+                        }
+                        .addOnFailureListener {
+                            Log.d("tff", it.toString())
+                        }
+                    /*
+                        .addOnFailureListener {
+                            Log.d("asdasdasdasdasdasd", it.toString())
+                        }
+                        .addOnSuccessListener {
+                            Log.d("aasdasdasdasdasdasdaqwe", "ssuuuuuuuuuuuuuuucceeeeeeeeedd")
+                        }*/
                     //startActivity(Intent(this.application.applicationContext, UserActivity::class.java))
                     //finish()
                 }   else {
@@ -77,6 +92,11 @@ class Repository (context: Context/*application: Application*/) {
                     Toast.makeText(c, "You were not registered", Toast.LENGTH_LONG).show()
                     Log.d("er", it.exception.toString())
                 }
+            }
+            .addOnFailureListener {
+                Toast.makeText(c, "failed to register", Toast.LENGTH_LONG)
+                Log.d("fail", "failed to register")
+                throw it
             }
     }
 
@@ -98,10 +118,12 @@ class Repository (context: Context/*application: Application*/) {
     }
 
     fun updateInfo(user: User) {
+        Log.d("aq xo111 ", "shemodixar")
         users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
         currentUser.postValue(user)
         val signedUser = firebaseAuth.currentUser
         users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
+        Log.d("aq xo ", "shemodixar")
     }
 
     fun uploadImage(user: User, uri: Uri) {

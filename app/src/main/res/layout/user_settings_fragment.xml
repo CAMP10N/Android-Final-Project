@@ -63,6 +63,7 @@
         android:layout_marginTop="42dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:onClick="onUpdate"
         app:layout_constraintTop_toBottomOf="@id/pos"
         android:text="@string/update"
         android:textAllCaps="false"/>

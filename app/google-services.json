@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "32924647693-sedk8ifh2lrjab6epj4nlmn11htsa10f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ge.tarustashvili_tbabunashvili.finalproject",
+            "certificate_hash": "d08531d7fb8216d4a076bde814127f048afeae0e"
+          }
+        },
+        {
           "client_id": "32924647693-ro7ic22eiesb79tq6b7h0748tvr0nps8.apps.googleusercontent.com",
           "client_type": 3
         }
