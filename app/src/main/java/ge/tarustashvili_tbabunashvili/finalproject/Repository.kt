@@ -45,7 +45,6 @@ class Repository (context: Context/*application: Application*/) {
             }
         }
         loggedOutLiveData.postValue(firebaseAuth.currentUser == null)
-
     }
 
     fun getUserLiveData(): MutableLiveData<FirebaseUser?> {
@@ -107,6 +106,7 @@ class Repository (context: Context/*application: Application*/) {
                 userLiveData.postValue(firebaseAuth.currentUser)
             }
             .addOnFailureListener {
+                Log.d("asd",it.toString())
                 Toast.makeText(c, "Log in failed", Toast.LENGTH_LONG).show()
             }
     }

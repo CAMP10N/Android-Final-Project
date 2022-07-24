@@ -6,7 +6,7 @@
     android:layout_height="100dp">
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/profile_picture"
+        android:id="@+id/searched_profile_picture"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,24 +22,24 @@
         app:civ_shadow_radius="10dp"
         app:civ_shadow_color="@color/application_blue_variant"/>
 
-<!--    <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--        android:id="@+id/profile_picture"-->
-<!--        android:layout_width="125dp"-->
-<!--        android:layout_height="125dp"-->
-<!--        android:src="@drawable/ic_launcher_background"-->
-<!--        app:civ_border_color="@color/application_blue"-->
-<!--        app:civ_border_width="0dp"-->
-<!--        app:civ_shadow="true"-->
-<!--        app:civ_shadow_radius="10dp"-->
-<!--        app:civ_shadow_color="@color/application_blue_variant"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.14"/>-->
+    <!--    <com.mikhaellopez.circularimageview.CircularImageView-->
+    <!--        android:id="@+id/profile_picture"-->
+    <!--        android:layout_width="125dp"-->
+    <!--        android:layout_height="125dp"-->
+    <!--        android:src="@drawable/ic_launcher_background"-->
+    <!--        app:civ_border_color="@color/application_blue"-->
+    <!--        app:civ_border_width="0dp"-->
+    <!--        app:civ_shadow="true"-->
+    <!--        app:civ_shadow_radius="10dp"-->
+    <!--        app:civ_shadow_color="@color/application_blue_variant"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.14"/>-->
 
     <TextView
-        android:id="@+id/name_lastname"
+        android:id="@+id/searched_name_lastname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -47,33 +47,23 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profile_picture"
+        app:layout_constraintStart_toEndOf="@+id/searched_profile_picture"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.2" />
 
     <TextView
-        android:id="@+id/last_message"
+        android:id="@+id/searched_job"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/profile_picture"
-        app:layout_constraintTop_toBottomOf="@+id/name_lastname"
-        tools:text="a far aes esdg grdfb stfgh sdrfgshft h awesg nszfvd stgvnbaesdgb d mhgavcesvdgfvhnsdfxcASDVFHVVAE DZG BSGN F" />
+        app:layout_constraintStart_toEndOf="@+id/searched_profile_picture"
+        app:layout_constraintTop_toBottomOf="@+id/searched_name_lastname"
+        tools:text="certified idiot" />
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="15 mins"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

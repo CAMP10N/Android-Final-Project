@@ -94,10 +94,14 @@ class UserActivity : AppCompatActivity() {
         Log.d("main", "onstart")
     }
 
+    fun onSearchClick(view: View) {
+        startActivity(Intent(this, SearchActivity::class.java))
+    }
 
-   /* fun logout(view: View) {
-        signedInViewModel.logOut()
-    }*/
+
+    /* fun logout(view: View) {
+         signedInViewModel.logOut()
+     }*/
 /*
     fun onUpdate(view: View) {
         var user = (fragments[1] as SettingsFragment).getUpdatedInfo()
