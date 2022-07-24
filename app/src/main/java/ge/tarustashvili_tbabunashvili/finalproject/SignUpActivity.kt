@@ -9,29 +9,34 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
-import ge.tarustashvili_tbabunashvili.finalproject.data.UsersDB
-import ge.tarustashvili_tbabunashvili.finalproject.data.entity.User
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var progressDialog: ProgressDialog
 
-    val viewModel: ViewModel by lazy {
-        ViewModelProvider(this, MainViewModelsFactory(application)).get(ViewModel::class.java)
+    val signInAndUpViewModel: SignInAndUpViewModel by lazy {
+        ViewModelProvider(this, MainViewModelsFactory(application)).get(SignInAndUpViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-        firebaseAuth = FirebaseAuth.getInstance()
+
+        signInAndUpViewModel.getUserLiveData().observe(this, Observer {
+            if (it != null) {
+                startActivity(Intent(this, UserActivity::class.java))
+                finish()
+            }
+        })
+        /*firebaseAuth = FirebaseAuth.getInstance()
         progressDialog = ProgressDialog(this)
         progressDialog.setTitle("Please wait...")
         progressDialog.setMessage("Signing up...")
-        progressDialog.setCanceledOnTouchOutside(false)
+        progressDialog.setCanceledOnTouchOutside(false)*/
 
     }
 
@@ -39,37 +44,21 @@ class SignUpActivity : AppCompatActivity() {
         const val User = "id"
     }
     fun register(view: View) {
-        var nickname = findViewById<EditText>(R.id.nickname).text.toString()
-        var password = findViewById<EditText>(R.id.password).text.toString()
-        var job = findViewById<EditText>(R.id.job).text.toString()
-        progressDialog.show()
-        firebaseAuth.createUserWithEmailAndPassword(nickname,password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    progressDialog.dismiss()
-                    startActivity(Intent(this, UserActivity::class.java))
-                    finish()
-                }   else {
-                    progressDialog.dismiss()
-                    Toast.makeText(this, "You were not registered", Toast.LENGTH_LONG).show()
-                    Log.e("Error", "Error occurred while trying to register user", it.exception)
-                }
-            }
-    }
-}
-
-
-class MainViewModelsFactory(var application: Application) : ViewModelProvider.Factory {
-    override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ViewModel::class.java)) {
-            return ViewModel(
-                Repository(
-                    Room.databaseBuilder(application, UsersDB::class.java, "Database").build()
-                )
-            ) as T
+        val nickname = findViewById<EditText>(R.id.nickname).text.toString()
+        val password = findViewById<EditText>(R.id.password).text.toString()
+        val job = findViewById<EditText>(R.id.job).text.toString()
+        if (nickname.isEmpty()) {
+            Toast.makeText(this, "You have to fill in nickname!", Toast.LENGTH_SHORT).show()
+            return
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        if (password.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters long!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (job.isEmpty()) {
+            Toast.makeText(this, "You have to fill in job field!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        signInAndUpViewModel.register(nickname.fakeMail(),password, job)
     }
-
-
 }

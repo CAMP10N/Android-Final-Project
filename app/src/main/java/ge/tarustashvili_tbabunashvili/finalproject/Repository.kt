@@ -14,7 +14,7 @@ import com.google.firebase.ktx.Firebase
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 
 
-class AuthRepository (context: Context/*application: Application*/) {
+class Repository (context: Context/*application: Application*/) {
 
     //  private lateinit var application: Application
     private var c = context
