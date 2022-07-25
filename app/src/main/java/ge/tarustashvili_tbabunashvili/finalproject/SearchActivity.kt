@@ -1,6 +1,7 @@
 package ge.tarustashvili_tbabunashvili.finalproject
 
 import android.app.Application
+import android.app.appsearch.SearchResult
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,13 +13,20 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
+import java.util.concurrent.Flow
+import kotlin.coroutines.CoroutineContext
 
-class SearchActivity : AppCompatActivity(), FriendListListener {
+class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
     val searchViewModel: SearchViewModel by lazy {
         ViewModelProvider(this, SearchViewModelFactory(application)).get(SearchViewModel::class.java)
     }
@@ -45,6 +53,69 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
         currentJob = intent.getStringExtra(myj)?: NO_DATA
         currentAvatar = intent.getStringExtra(mya)?:""
         findViewById<RecyclerView>(R.id.friendlist).adapter = adapter
+
+        /*fun executeSearch(term: String): Flow<SearchResult> { ... }
+
+        findViewById<EditText>(R.id.searchfriends).textChanges()
+            .filterNot { findViewById<EditText>(R.id.searchfriends).isNullOrBlank() }
+            .debounce(300)
+            .distinctUntilChanged()
+            .flatMapLatest { executeSearch(it) }
+            .onEach { updateUI(it) }
+            .launchIn(lifecycleScope)
+*/
+
+        val watcher = object :TextWatcher{
+            private var searchFor = ""
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString().trim()
+                if (searchText == searchFor)
+                    return
+
+                searchFor = searchText
+
+                launch {
+                    delay(300)  //debounce timeOut
+                    if (searchText != searchFor)
+                        return@launch
+                    if (searchText.length > 2) {
+                        searchViewModel.getByNickname(searchText)
+                    }   else if (searchText == "") {
+                        searchViewModel.getByNickname("")
+                    }
+
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) = Unit
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+        }
+        findViewById<EditText>(R.id.searchfriends).addTextChangedListener(watcher)
+/*
+        val watcher = object : TextWatcher {
+            private var name = ""
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val text = s.toString().trim()
+                Log.d("eh", text)
+                if (text.length > 2) {
+                    var runnable: Runnable? = null
+                    var handler: Handler = Handler()
+                    if (runnable != null)
+                        handler.removeCallbacks(runnable!!)
+                    runnable = Runnable {
+                        searchViewModel.getByNickname(text)
+                    }
+                    handler.postDelayed(runnable!!, 500);
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+        }*/
+/*
+
         findViewById<EditText>(R.id.searchfriends).addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
@@ -74,6 +145,7 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
 
             }
         })
+*/
 
     }
 
@@ -91,12 +163,15 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
             newLst.add(user)
         }
         adapter.items = newLst
-     //   Log.d("aba aq", lst.toString())
         adapter.notifyDataSetChanged()
+        if (newLst.isEmpty()) {
+            Toast.makeText(this, "User Not Found", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onClickListener(user: User) {
        // Log.d("adsadasdsdsd","mamsndad")
+        Log.d("ra xdeba ver gevige", user.avatar.toString())
         var intent = Intent(this, ChatActivity::class.java).apply {
             putExtra(ChatActivity.tonick, user.nickname)
             putExtra(ChatActivity.tomail, user.username)
@@ -113,6 +188,9 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
     fun onBack(view: View) {
         finish()
     }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
 }
 
 

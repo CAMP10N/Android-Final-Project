@@ -46,7 +46,6 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var currentNickname: String
     private lateinit var currentAvatar: String
     private lateinit var currentJob: String
-    private lateinit var toAvatar: String
     private lateinit var toUserName: String
     private lateinit var chat: RecyclerView
     private lateinit var scroll: ScrollView
@@ -73,7 +72,6 @@ class ChatActivity : AppCompatActivity() {
         currentUsername = intent.getStringExtra(frommail)?: NO_DATA
         currentJob = intent.getStringExtra(fromjob)?: NO_DATA
         toUserName = intent.getStringExtra(tomail)?: NO_DATA
-        toAvatar = intent.getStringExtra(topfp)?: ""
         currentNickname = intent.getStringExtra(fromnick)?: NO_DATA
         currentAvatar = intent.getStringExtra(frompfp)?:""
         messageField = findViewById<EditText>(R.id.message_edit_text)
@@ -97,10 +95,18 @@ class ChatActivity : AppCompatActivity() {
 
         toNameNPoscoll.text = finalText
 
-        toPfpstr = intent.getStringExtra(topfp)?: NO_DATA
+        toPfpstr = intent.getStringExtra(topfp)?:""
+        Log.d("To Nickname", toNicknamestr)
+        Log.d("To Profession" , toJobstr)
+        Log.d("To Username", toUserName)
+        Log.d("To profile", toPfpstr)
+        Log.d("from username", currentUsername)
+        Log.d("from nickname", currentNickname)
+        Log.d("From profession", currentJob)
+        Log.d("From profile", currentAvatar)
         toNickname.text = toNicknamestr
         toJob.text = toJobstr
-        if (toPfpstr != NO_DATA) {
+        if (toPfpstr != "") {
           //  Log.d("wamoigo","uuff")
             Glide.with(this)
                 .load(toPfpstr)
@@ -158,7 +164,7 @@ class ChatActivity : AppCompatActivity() {
     //    Log.d("useri", currentUsername)
         if (message != "") {
             chatViewModel.sendMessage(currentUsername, to, message, date)
-            chatViewModel.updateConversation(currentUsername,to, date, message,  currentAvatar,toAvatar, currentNickname, toNicknamestr, currentJob, toJobstr)
+            chatViewModel.updateConversation(currentUsername,to, date, message,  currentAvatar,toPfpstr, currentNickname, toNicknamestr, currentJob, toJobstr)
         }
         messageField.setText("")
     }

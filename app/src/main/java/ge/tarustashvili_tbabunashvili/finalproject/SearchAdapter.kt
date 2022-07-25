@@ -17,11 +17,13 @@ class SearchAdapter(var searchActivity: SearchActivity, var items: MutableList<U
     }
 
     override fun onBindViewHolder(holder: SearchHolder, position: Int) {
-        if (items[position].avatar != null && items[position].avatar != "") {
+        if (items[holder.adapterPosition].avatar != null && items[holder.adapterPosition].avatar != "") {
             Glide.with(searchActivity)
-                .load(items[position].avatar)
+                .load(items[holder.adapterPosition].avatar)
                 .circleCrop()
                 .into(holder.pfp)
+        }   else {
+            holder.pfp.setImageResource(R.drawable.avatar_image_placeholder)
         }
         holder.name.text = items[position].nickname
      //   Log.d("friendlist", holder.name.text.toString())

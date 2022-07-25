@@ -49,6 +49,24 @@ class ChatRepository(context: Context/*application: Application*/) {
     }
 
 
+    fun getByNickname(nickname: String) {
+        conversations
+            .get()
+            .addOnSuccessListener {
+                val conv = mutableListOf<Conversation>()
+                for (obj in it.children) {
+                    val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                    Log.d("esec", singleConversation.toString())
+                    if ((singleConversation.from!!.startsWith(nickname)) || (singleConversation.to!!.startsWith(nickname)))
+                        conv.add(singleConversation)
+                }
+                conv.sort()
+                convos.postValue(conv)
+            }
+            .addOnFailureListener {
+            }
+    }
+
     fun getCombined(from: String, to:String) : String {
         if (from < to) {
             return "${from}_${to}"
@@ -100,7 +118,6 @@ class ChatRepository(context: Context/*application: Application*/) {
 
     fun updateConversation(from: String, to: String, time: Date, message: String, avatarFrom: String, avatarTo: String,
                                 nicknameFrom: String, nicknameTo: String, jobFrom: String, jobTo: String) {
-        //removeConvo(getCombined(from,to))
         conversations
             .orderByChild("comb")
             .equalTo(getCombined(from,to))
@@ -141,7 +158,9 @@ class ChatRepository(context: Context/*application: Application*/) {
                                 avatarFrom = avatarFrom,
                                 avatarTo = avatarTo,
                                 nicknameFrom = nicknameFrom,
-                                nicknameTo = nicknameTo
+                                nicknameTo = nicknameTo,
+                                jobFrom = jobFrom,
+                                jobTo = jobTo
                             )
                         )
                     }

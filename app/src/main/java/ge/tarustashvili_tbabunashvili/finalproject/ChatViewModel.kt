@@ -13,6 +13,11 @@ class ChatViewModel(val rep: ChatRepository): ViewModel() {
         rep.sendMessage(from, to,message,time)
     }
 
+
+    fun getByNickname(nickname: String) {
+        rep.getByNickname(nickname)
+    }
+
     fun registerListener(from: String, to: String) {
         rep.registerMessagesListener(from,to)
     }

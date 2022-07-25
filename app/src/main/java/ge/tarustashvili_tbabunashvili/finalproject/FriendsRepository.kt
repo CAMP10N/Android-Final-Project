@@ -23,10 +23,14 @@ class FriendsRepository(context: Context) {
     fun getByNickname(nickname: String) {
         users
             .orderByChild("nickname")
-            .equalTo(nickname)
+            .startAt(nickname)
+            .endAt(nickname + "\uf8ff")
             .get()
             .addOnSuccessListener {
                 onFriendsFetched(it)
+            }
+            .addOnFailureListener {
+                Log.d("ra gindaa", it.toString())
             }
     }
 
@@ -34,6 +38,7 @@ class FriendsRepository(context: Context) {
         var friendList = mutableListOf<User>()
         for (obj in dataSnapshot.children) {
             var user: User = obj.getValue(User::class.java) as User
+            Log.d("es", user.toString())
             friendList.add(user)
         }
         friends.postValue(friendList)
