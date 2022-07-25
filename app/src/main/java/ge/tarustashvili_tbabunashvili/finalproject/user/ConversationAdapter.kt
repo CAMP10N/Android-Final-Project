@@ -21,12 +21,12 @@ class ConversationAdapter(var items: List<Conversation>, private var context: Co
     }
 
     override fun onBindViewHolder(holder: ConverstationHolder, position: Int) {
-        var avatarlink = items[position].avatarFrom
-        if (items[position].from == currentUserName) {
-            avatarlink = items[position].avatarTo
-            holder.name.text = items[position].nicknameTo
+        var avatarlink = items[holder.adapterPosition].avatarFrom
+        if (items[holder.adapterPosition].from == currentUserName) {
+            avatarlink = items[holder.adapterPosition].avatarTo
+            holder.name.text = items[holder.adapterPosition].nicknameTo
         }   else {
-            holder.name.text = items[position].nicknameFrom
+            holder.name.text = items[holder.adapterPosition].nicknameFrom
         }
         if (avatarlink != null && avatarlink != "") {
             Glide.with(context)
@@ -34,11 +34,14 @@ class ConversationAdapter(var items: List<Conversation>, private var context: Co
                 .circleCrop()
                 .into(holder.pfp)
         }
-        holder.message.text = items[position].message
-        val datetxt = items[position].date?.let { it.parseDate() }
+        else {
+            holder.pfp.setImageResource(R.drawable.avatar_image_placeholder)
+        }
+        holder.message.text = items[holder.adapterPosition].message
+        val datetxt = items[holder.adapterPosition].date?.let { it.parseDate() }
         holder.date.text = datetxt
         holder.itemView.setOnClickListener{
-            listener.onClickListener(items[position])
+            listener.onClickListener(items[holder.adapterPosition])
         }
     }
 

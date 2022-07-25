@@ -113,7 +113,8 @@ class Repository (context: Context/*application: Application*/) {
                 for (obj in it.children) {
                     val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
                     if (singleConversation.from != rec && singleConversation.to != rec) continue
-                    if ((singleConversation.from!!.startsWith(nickname)) || (singleConversation.to!!.startsWith(nickname)))
+                    if ((singleConversation.nicknameFrom!!.startsWith(nickname) && singleConversation.from != rec)
+                        || (singleConversation.nicknameTo!!.startsWith(nickname) && singleConversation.to != rec))
                         conv.add(singleConversation)
                 }
                 conv.sort()
