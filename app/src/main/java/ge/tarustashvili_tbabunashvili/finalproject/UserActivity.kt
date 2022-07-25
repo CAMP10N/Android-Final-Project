@@ -25,7 +25,7 @@ class UserActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private var fragments  = arrayListOf(HomeFragment(), SettingsFragment())
     private lateinit var vp: ViewPager2
-
+    private lateinit var currentUser: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
@@ -37,14 +37,14 @@ class UserActivity : AppCompatActivity() {
                 finish()
             }
         })
-        /*
         signedInViewModel.getCurrentUser().observe(this, Observer {
             if (it != null) {
-                (fragments[1] as SettingsFragment).setData(it)
+                currentUser = it
+                Log.d("useruseruser", it.toString())
             }   else {
                 Log.d("eeh","eeh")
             }
-        })*/
+        })
 
         bottomNavigationView = findViewById(R.id.bottom_nav_bar)
         bottomNavigationView.background = null
@@ -95,7 +95,14 @@ class UserActivity : AppCompatActivity() {
     }
 
     fun onSearchClick(view: View) {
-        startActivity(Intent(this, SearchActivity::class.java))
+        Log.d("user in user", currentUser.username ?: "nothing easy")
+        var intent = Intent(this, SearchActivity::class.java).apply {
+            putExtra("current nickname", currentUser.nickname)
+            putExtra("current job", currentUser.job)
+            putExtra("current username", currentUser.username)
+        }
+        startActivity(intent)
+
     }
 
 

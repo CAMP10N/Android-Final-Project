@@ -10,12 +10,14 @@
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/ic_background.xml" value="0.2695" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.263" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/ic_baseline_arrow_back_ios_new_24.xml" value="0.216" />
+        <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/ic_baseline_arrow_back_ios_new_48.xml" value="0.216" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.242" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.242" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2735" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/my_chat_border.xml" value="0.216" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/picture_border.xml" value="0.252" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/drawable/search_border.xml" value="0.2685" />
+        <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/activity_chat.xml" value="0.22" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/activity_search.xml" value="0.5" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
@@ -24,8 +26,9 @@
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/his_message.xml" value="0.25" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/home_page_fragment.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/layout_chat.xml" value="0.3380208333333333" />
+        <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/layout_chat_scrolling.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/looked_up_user.xml" value="0.33" />
-        <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/my_message.xml" value="0.13328729281767956" />
+        <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/my_message.xml" value="0.33" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/reusable_converstations.xml" value="0.33" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/layout/user_settings_fragment.xml" value="0.25" />
         <entry key="..\:/Users/AzRy/AndroidStudioProjects/FinalProject/app/src/main/res/menu/bottom_menu.xml" value="0.34270833333333334" />

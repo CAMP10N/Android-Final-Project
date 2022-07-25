@@ -1,9 +1,11 @@
 package ge.tarustashvili_tbabunashvili.finalproject
 
 import android.app.Application
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.provider.ContactsContract
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -21,6 +23,10 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
         ViewModelProvider(this, SearchViewModelFactory(application)).get(SearchViewModel::class.java)
     }
 
+    private val NO_DATA = "Not Found"
+    private lateinit var currentUsername:String
+    private lateinit var currentNickname:String
+    private lateinit var currentJob: String
     private val lst = mutableListOf<User>()
     private var adapter = SearchAdapter(this,lst,this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +38,11 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
                 update(it)
             }
         })
+        currentUsername = intent.getStringExtra("current username")?: NO_DATA
+        Log.d("user in intent", currentUsername)
+        currentNickname = intent.getStringExtra("current nickname")?: NO_DATA
+        currentJob = intent.getStringExtra("current job")?: NO_DATA
+
         findViewById<RecyclerView>(R.id.friendlist).adapter = adapter
         findViewById<EditText>(R.id.searchfriends).addTextChangedListener(object : TextWatcher {
 
@@ -72,7 +83,15 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
     }
 
     override fun onClickListener(user: User) {
-        TODO("Not yet implemented")
+        Log.d("adsadasdsdsd","mamsndad")
+        var intent = Intent(this, ChatActivity::class.java).apply {
+            putExtra(ChatActivity.nick, user.nickname)
+            putExtra(ChatActivity.mail, user.username)
+            putExtra(ChatActivity.job, user.job)
+            putExtra(ChatActivity.pfp, user.avatar)
+            putExtra(ChatActivity.from, currentUsername)
+        }
+        startActivity(intent)
     }
 
     fun onBack(view: View) {

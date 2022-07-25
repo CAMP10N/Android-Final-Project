@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.Message
 import java.util.*
 
-class MessagesAdapter(private var curruser: String, private var items: List<Message>): RecyclerView.Adapter<MessageHolder>() {
+class MessagesAdapter(private var curruser: String, var items: List<Message>): RecyclerView.Adapter<MessageHolder>() {
 
     fun ViewHolder0(parent: ViewGroup): MessageHolder {
         return MessageHolder(LayoutInflater.from(parent.context).inflate(R.layout.my_message, parent, false))
@@ -27,7 +27,7 @@ class MessagesAdapter(private var curruser: String, private var items: List<Mess
 
     override fun onBindViewHolder(holder: MessageHolder, position: Int) {
         holder.message.text = items[position].message
-        var datetxt = parseDate(items[position].date)
+        var datetxt = items[position].date?.let { parseDate(it) }
         holder.date.text = datetxt
     }
 
@@ -36,7 +36,11 @@ class MessagesAdapter(private var curruser: String, private var items: List<Mess
     }
 
     private fun parseDate(date: Date): String {
-        return date.time.toString()
+        var d2s: String
+        var hours = if (date.hours >= 10) date.hours.toString() else "0" + date.hours.toString()
+        var minutes = if (date.minutes >= 10) date.minutes.toString() else "0" + date.minutes.toString()
+        d2s = hours + ":" + minutes
+        return d2s
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -45,6 +49,6 @@ class MessagesAdapter(private var curruser: String, private var items: List<Mess
 }
 
 class MessageHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-    var message: TextView = itemView.findViewById(R.id.my_chat)
+    var message: TextView = itemView.findViewById(R.id.chat_chat)
     var date: TextView = itemView.findViewById(R.id.time)
 }

@@ -1,6 +1,5 @@
 package ge.tarustashvili_tbabunashvili.finalproject
 
-import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import ge.tarustashvili_tbabunashvili.finalproject.data.model.Converstation
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
-import java.util.*
 
 class SearchAdapter(var searchActivity: SearchActivity, var items: MutableList<User>, var listener: FriendListListener): RecyclerView.Adapter<SearchHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHolder {
@@ -29,6 +26,9 @@ class SearchAdapter(var searchActivity: SearchActivity, var items: MutableList<U
         holder.name.text = items[position].nickname
         Log.d("friendlist", holder.name.text.toString())
         holder.job.text = items[position].job
+        holder.itemView.setOnClickListener{
+            listener.onClickListener(items[position])
+        }
     }
 
     override fun getItemCount(): Int {
