@@ -1,5 +1,6 @@
 package ge.tarustashvili_tbabunashvili.finalproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +15,7 @@ import ge.tarustashvili_tbabunashvili.finalproject.data.model.Message
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 import ge.tarustashvili_tbabunashvili.finalproject.databinding.HomePageFragmentBinding
 
-class HomeFragment: Fragment() {
+class HomeFragment: Fragment(), ConvoListener {
 
     private var _binding: HomePageFragmentBinding? = null
 
@@ -23,7 +24,7 @@ class HomeFragment: Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var rvConv: RecyclerView
-
+    private lateinit var user: User
     val chatViewModel: ChatViewModel by lazy {
         ViewModelProvider(this, ChatViewModelsFactory(requireActivity().application)).get(ChatViewModel::class.java)
     }
@@ -44,10 +45,11 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvConv = view.findViewById(R.id.conversations)
-        rvConv.adapter = ConversationAdapter(emptyList(), requireContext(),"")
+        rvConv.adapter = ConversationAdapter(emptyList(), requireContext(),"", this)
         signedInViewModel.getCurrentUser().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 chatViewModel.registerConversationListener(it.username?:"")
+                user = it
                 (rvConv.adapter as ConversationAdapter).currentUserName = it.username?: ""
                // Log.d("ha???", "sadas")
             }   else {
@@ -75,6 +77,37 @@ class HomeFragment: Fragment() {
  //       rvConv.adapter = adapter
     }
 
+    override fun onClickListener(conversation: Conversation) {
+        var fromMail = user.username
+        var fromNick = user.nickname
+        var fromPfp = user.avatar
+        var toMail = conversation.to
+        var toNick = conversation.nicknameTo
+        var toJob = conversation.jobTo
+        var toAvatar = conversation.avatarTo
+        var fromJob = user.job
+        if (user.username == conversation.from)  {
+            fromMail= conversation.to
+            fromNick = conversation.nicknameTo
+            fromPfp = conversation.avatarTo
+            fromJob = conversation.jobTo
+            toMail = user.username
+            toNick = user.nickname
+            toAvatar = user.avatar
+            toJob = user.job
+        }
+        var intent = Intent(requireContext(), ChatActivity::class.java).apply {
+            putExtra(ChatActivity.tonick, toNick)
+            putExtra(ChatActivity.tomail, toMail)
+            putExtra(ChatActivity.tojob, toJob)
+            putExtra(ChatActivity.topfp, toAvatar)
+            putExtra(ChatActivity.frommail, fromMail)
+            putExtra(ChatActivity.fromnick, fromNick)
+            putExtra(ChatActivity.frompfp, fromPfp)
+            putExtra(ChatActivity.fromjob, fromJob)
+        }
+        startActivity(intent)
+    }
 
 
 }

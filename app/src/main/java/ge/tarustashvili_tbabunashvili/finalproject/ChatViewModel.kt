@@ -30,7 +30,7 @@ class ChatViewModel(val rep: ChatRepository): ViewModel() {
     }
 
     fun updateConversation(from: String, to: String, time: Date, message: String, avatarFrom: String, avatarTo: String,
-                           nicknameFrom: String, nicknameTo: String) {
-        rep.updateConversation(from,to,time,message,avatarFrom,avatarTo, nicknameFrom, nicknameTo)
+                           nicknameFrom: String, nicknameTo: String, jobFrom: String, jobTo: String) {
+        rep.updateConversation(from,to,time,message,avatarFrom,avatarTo, nicknameFrom, nicknameTo, jobFrom, jobTo)
     }
 }

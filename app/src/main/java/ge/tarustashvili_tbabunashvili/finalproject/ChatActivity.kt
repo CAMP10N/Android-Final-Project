@@ -45,6 +45,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var currentUsername: String
     private lateinit var currentNickname: String
     private lateinit var currentAvatar: String
+    private lateinit var currentJob: String
     private lateinit var toAvatar: String
     private lateinit var toUserName: String
     private lateinit var chat: RecyclerView
@@ -70,6 +71,7 @@ class ChatActivity : AppCompatActivity() {
         toNicknamestr = intent.getStringExtra(tonick)?: NO_DATA
         toJobstr = intent.getStringExtra(tojob)?: NO_DATA
         currentUsername = intent.getStringExtra(frommail)?: NO_DATA
+        currentJob = intent.getStringExtra(fromjob)?: NO_DATA
         toUserName = intent.getStringExtra(tomail)?: NO_DATA
         toAvatar = intent.getStringExtra(topfp)?: ""
         currentNickname = intent.getStringExtra(fromnick)?: NO_DATA
@@ -139,6 +141,7 @@ class ChatActivity : AppCompatActivity() {
         const val fromnick = "from user nickname"
         const val frommail = "from user username"
         const val frompfp = "from user profile picture"
+        const val fromjob = "from user job"
     }
 
     fun updateData(messages: MutableList<Message>)   {
@@ -155,7 +158,7 @@ class ChatActivity : AppCompatActivity() {
     //    Log.d("useri", currentUsername)
         if (message != "") {
             chatViewModel.sendMessage(currentUsername, to, message, date)
-            chatViewModel.updateConversation(currentUsername,to, date, message,  currentAvatar,toAvatar, currentNickname, toNicknamestr)
+            chatViewModel.updateConversation(currentUsername,to, date, message,  currentAvatar,toAvatar, currentNickname, toNicknamestr, currentJob, toJobstr)
         }
         messageField.setText("")
     }

@@ -105,6 +105,7 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
             putExtra(ChatActivity.frommail, currentUsername)
             putExtra(ChatActivity.fromnick, currentNickname)
             putExtra(ChatActivity.frompfp, currentAvatar)
+            putExtra(ChatActivity.fromjob, currentJob)
         }
         startActivity(intent)
     }

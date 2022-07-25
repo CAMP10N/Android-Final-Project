@@ -13,7 +13,7 @@ import ge.tarustashvili_tbabunashvili.finalproject.data.model.Conversation
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 import java.util.*
 
-class ConversationAdapter(var items: List<Conversation>, private var context: Context, var currentUserName: String): RecyclerView.Adapter<ConverstationHolder>() {
+class ConversationAdapter(var items: List<Conversation>, private var context: Context, var currentUserName: String, var listener: ConvoListener): RecyclerView.Adapter<ConverstationHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConverstationHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.reusable_converstations, parent, false)
         return ConverstationHolder(view)
@@ -37,6 +37,9 @@ class ConversationAdapter(var items: List<Conversation>, private var context: Co
         holder.message.text = items[position].message
         var datetxt = items[position].date?.let { parseDate(it) }
         holder.date.text = datetxt
+        holder.itemView.setOnClickListener{
+            listener.onClickListener(items[position])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -63,4 +66,8 @@ class ConverstationHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     var name: TextView = itemView.findViewById(R.id.name_lastname)
     var message: TextView = itemView.findViewById(R.id.last_message)
     var date: TextView = itemView.findViewById(R.id.date)
+}
+
+interface ConvoListener{
+    fun onClickListener(conversation: Conversation)
 }
