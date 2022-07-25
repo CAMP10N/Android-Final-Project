@@ -12,6 +12,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.Conversation
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.Message
+import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 import java.util.*
 
 

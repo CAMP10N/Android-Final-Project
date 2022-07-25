@@ -15,6 +15,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import ge.tarustashvili_tbabunashvili.finalproject.data.model.Conversation
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 import java.util.*
 
@@ -27,6 +28,7 @@ class Repository (context: Context/*application: Application*/) {
     private var userLiveData: MutableLiveData<FirebaseUser?> = MutableLiveData()
     private var loggedOutLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private val users = Firebase.database.getReference("users")
+    private val conversations = Firebase.database.getReference("conversations")
     private var currentUser: MutableLiveData<User?> = MutableLiveData()
     init {
         // this.application = application
@@ -123,7 +125,53 @@ class Repository (context: Context/*application: Application*/) {
         currentUser.postValue(user)
         val signedUser = firebaseAuth.currentUser
         users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
+        updateConversations(user)
       //  Log.d("aq xo ", "shemodixar")
+    }
+
+    private fun updateConversations(user: User) {
+        conversations
+            .get()
+            .addOnSuccessListener {
+                for (obj in it.children) {
+                    val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                    if (singleConversation.from == user.username) {
+                        obj.key?.let { it1 -> conversations.child(it1).setValue(
+                            Conversation(
+                                comb=singleConversation.comb,
+                                message = singleConversation.message,
+                                date = singleConversation.date,
+                                from = singleConversation.from,
+                                to = singleConversation.to,
+                                avatarFrom = user.avatar,
+                                jobFrom = user.job,
+                                nicknameFrom = user.nickname,
+                                avatarTo = singleConversation.avatarTo,
+                                jobTo = singleConversation.jobTo,
+                                nicknameTo = singleConversation.nicknameTo
+                            )) }
+                        continue
+                    }
+                    if (singleConversation.to == user.username) {
+                        obj.key?.let { it1 -> conversations.child(it1).setValue(
+                            Conversation(
+                                comb=singleConversation.comb,
+                                message = singleConversation.message,
+                                date = singleConversation.date,
+                                from = singleConversation.from,
+                                to = singleConversation.to,
+                                avatarTo = user.avatar,
+                                jobTo = user.job,
+                                nicknameTo = user.nickname,
+                                avatarFrom = singleConversation.avatarTo,
+                                jobFrom = singleConversation.jobTo,
+                                nicknameFrom = singleConversation.nicknameTo
+                            )) }
+                    }
+                }
+            }
+            .addOnFailureListener {
+            }
     }
 
     fun uploadImage(user: User, uri: Uri) {
