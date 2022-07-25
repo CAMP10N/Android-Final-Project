@@ -38,4 +38,5 @@
     <dimen name="so_width">120dp</dimen>
     <dimen name="so_marg">2dp</dimen>
     <dimen name="upd_but_marg">42dp</dimen>
+    <dimen name="rv_bot_marg">75dp</dimen>
 </resources>

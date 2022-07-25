@@ -21,7 +21,7 @@ data class Conversation(
     val jobTo: String? = null
 ) : Comparable<Conversation> {
     override fun compareTo(other: Conversation): Int {
-        return date!!.compareTo(other.date)
+        return other.date!!.compareTo(date)
     }
 
 }
