@@ -2,14 +2,22 @@ package ge.tarustashvili_tbabunashvili.finalproject
 
 import android.app.Application
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -23,13 +31,13 @@ class UserActivity : AppCompatActivity() {
     }
 
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bottomAppBar: BottomAppBar
     private var fragments  = arrayListOf(HomeFragment(), SettingsFragment())
     private lateinit var vp: ViewPager2
     private lateinit var currentUser: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
-
 
         signedInViewModel.getLoggedOutLiveData().observe(this, Observer {
             if (it) {
@@ -48,6 +56,8 @@ class UserActivity : AppCompatActivity() {
 
         bottomNavigationView = findViewById(R.id.bottom_nav_bar)
         bottomNavigationView.background = null
+
+        bottomAppBar = findViewById(R.id.bottom_appbar)
 
         vp = findViewById(R.id.user_body)
         vp.adapter = UserPagerAdapter(this, fragments)

@@ -2,6 +2,7 @@ package ge.tarustashvili_tbabunashvili.finalproject
 
 import android.content.Context
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,8 @@ class ConversationAdapter(var items: List<Conversation>, private var context: Co
                 .into(holder.pfp)
         }
         holder.message.text = items[position].message
-        var datetxt = items[position].date?.let { parseDate(it) }
+        val datetxt = items[position].date?.let { parseDate(it) }
+        Log.d("bbbbbbbbbbb", datetxt!!)
         holder.date.text = datetxt
         holder.itemView.setOnClickListener{
             listener.onClickListener(items[position])
@@ -47,16 +49,31 @@ class ConversationAdapter(var items: List<Conversation>, private var context: Co
     }
 
     private fun parseDate(date: Date): String {
-        if (DateUtils.isToday(date.time)) {
-            return DateUtils.getRelativeTimeSpanString(Date().time - date.time).toString()
+        Log.d("datedate", date.toString())
+        return if (DateUtils.isToday(date.time)) {
+            val msS = Calendar.getInstance().getTimeInMillis()
+            val msF = date.time
+            val diff = msS - msF
+            val diffSeconds = diff / 1000
+            val diffMinutes = diff / (60 * 1000)
+            val diffHours = diff / (60 * 60 * 1000)
+            var relativeTime: String = ""
+
+            if (diffMinutes < 1 && diffHours < 1) {
+                relativeTime = diffSeconds.toString() + " sec"
+            } else if (diffHours < 1) {
+                relativeTime = diffMinutes.toString() + " min"
+            } else {
+                relativeTime = diffHours.toString() + " hour"
+                if (diffHours > 1) relativeTime += "s"
+            }
+            relativeTime
         } else {
-            val months = mapOf(1 to "Jan",
-                2 to "Feb", 3 to "Mar", 4 to "Apr", 5 to "May", 6 to "Jun", 7 to "Jul", 8 to "Aug",
-                9 to "Sep", 10 to "Oct", 11 to "Nov", 12 to "Dec")
-            var dateStr = date.toString()
+            val dateStr = date.toString()
+            Log.d("strdat", dateStr)
             var dt = ""
-            dt += months[dateStr.substring(5, 7).toInt()]?.uppercase() + " " + dateStr.substring(8)
-            return dt
+            dt += dateStr.substring(8, dateStr.indexOf(' ', 8)) + " " + dateStr.substring(4, 7).uppercase()
+            dt
         }
     }
 }

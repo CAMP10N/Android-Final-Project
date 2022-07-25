@@ -2,6 +2,7 @@ package ge.tarustashvili_tbabunashvili.finalproject
 
 //import android.R
 import android.app.Application
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
@@ -15,12 +16,12 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.FOCUS_DOWN
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.Message
@@ -137,6 +138,8 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         appbar.addOnOffsetChangedListener(mListener)
+        scroll.fullScroll(FOCUS_DOWN)
+        scroll.smoothScrollTo(0, scroll.height)
     }
 
     companion object {
@@ -155,6 +158,9 @@ class ChatActivity : AppCompatActivity() {
       //  Log.d("recyclerrr", (chat.adapter as MessagesAdapter).items.toString())
         (chat.adapter as MessagesAdapter).notifyDataSetChanged()
       //  Log.d("infomsg", messages.toString())
+        Log.d("infomsg", messages.toString())
+//        scroll.fullScroll(FOCUS_DOWN)
+        scroll.smoothScrollTo(0, scroll.height)
     }
 
     fun onSend(view: View) {
@@ -167,10 +173,15 @@ class ChatActivity : AppCompatActivity() {
             chatViewModel.updateConversation(currentUsername,to, date, message,  currentAvatar,toPfpstr, currentNickname, toNicknamestr, currentJob, toJobstr)
         }
         messageField.setText("")
+//        scroll.fullScroll(FOCUS_DOWN)
+        scroll.smoothScrollTo(0, scroll.height + 30)
+
     }
 
     fun onBack(view: View) {
-        finish()
+        val i = Intent(this, UserActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(i)
     }
 
 }
