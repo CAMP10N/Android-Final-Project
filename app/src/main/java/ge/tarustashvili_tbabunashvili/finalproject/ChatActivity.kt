@@ -129,7 +129,6 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         appbar.addOnOffsetChangedListener(mListener)
-        scroll.post(Runnable { scroll.fullScroll(View.FOCUS_DOWN) })
     }
 
     companion object {
