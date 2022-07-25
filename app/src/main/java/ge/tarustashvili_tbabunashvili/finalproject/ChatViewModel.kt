@@ -14,8 +14,8 @@ class ChatViewModel(val rep: ChatRepository): ViewModel() {
     }
 
 
-    fun getByNickname(nickname: String) {
-        rep.getByNickname(nickname)
+    fun getByNickname(nickname: String, rec: String) {
+        rep.getByNickname(nickname, rec)
     }
 
     fun registerListener(from: String, to: String) {

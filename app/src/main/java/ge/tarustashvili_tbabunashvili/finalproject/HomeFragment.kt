@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -37,6 +38,7 @@ class HomeFragment: Fragment(), ConvoListener, CoroutineScope {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var progressBar: ProgressBar
     private lateinit var rvConv: RecyclerView
     private lateinit var user: User
     val chatViewModel: ChatViewModel by lazy {
@@ -59,9 +61,13 @@ class HomeFragment: Fragment(), ConvoListener, CoroutineScope {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvConv = view.findViewById(R.id.conversations)
+        progressBar = view.findViewById(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
+        rvConv.visibility = View.INVISIBLE
         rvConv.adapter = ConversationAdapter(emptyList(), requireContext(),"", this)
         signedInViewModel.getCurrentUser().observe(viewLifecycleOwner, Observer {
             if (it != null) {
+                Log.d("haa","haa")
                 chatViewModel.registerConversationListener(it.username?:"")
                 user = it
                 (rvConv.adapter as ConversationAdapter).currentUserName = it.username?: ""
@@ -72,6 +78,7 @@ class HomeFragment: Fragment(), ConvoListener, CoroutineScope {
         })
 
         chatViewModel.getConversationsList().observe(viewLifecycleOwner, Observer {
+            Log.d("WTF","WTTTF")
             if (it != null) {
                 updateData(it)
                // Log.d("ras shobi", it.toString())
@@ -87,13 +94,15 @@ class HomeFragment: Fragment(), ConvoListener, CoroutineScope {
                 if (searchText == searchFor)
                     return
 
+                progressBar.visibility = View.VISIBLE
+                rvConv.visibility = View.INVISIBLE
                 searchFor = searchText
 
                 launch {
                     delay(300)  //debounce timeOut
                     if (searchText != searchFor)
                         return@launch
-                    chatViewModel.getByNickname(searchText)
+                    chatViewModel.getByNickname(searchText,user.username!!)
 
                 }
             }
@@ -104,13 +113,15 @@ class HomeFragment: Fragment(), ConvoListener, CoroutineScope {
         view.findViewById<EditText>(R.id.message_edit_text).addTextChangedListener(watcher)
     }
 
-    fun updateData(conversations: MutableList<Conversation>)   {
-       // Log.d("shemovida?", " upalo")
-       // Log.d("aba raga ginda", conversations.toString())
+    fun updateData(conversations: MutableList<Conversation>) {
+        // Log.d("shemovida?", " upalo")
+        // Log.d("aba raga ginda", conversations.toString())
+        rvConv.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
         (rvConv.adapter as ConversationAdapter).items = conversations
         (rvConv.adapter as ConversationAdapter).notifyDataSetChanged()
         if (conversations.isEmpty()) {
-            Toast.makeText(requireContext(), "User Not Found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "No Conversation Found", Toast.LENGTH_SHORT).show()
         }
     }
 

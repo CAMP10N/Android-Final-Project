@@ -50,7 +50,7 @@ class ChatRepository(context: Context/*application: Application*/) {
     }
 
 
-    fun getByNickname(nickname: String) {
+    fun getByNickname(nickname: String, rec: String) {
         conversations
             .get()
             .addOnSuccessListener {
@@ -58,6 +58,7 @@ class ChatRepository(context: Context/*application: Application*/) {
                 for (obj in it.children) {
                     val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
                     Log.d("esec", singleConversation.toString())
+                    if (singleConversation.from != rec && singleConversation.to != rec) continue
                     if ((singleConversation.from!!.startsWith(nickname)) || (singleConversation.to!!.startsWith(nickname)))
                         conv.add(singleConversation)
                 }
@@ -240,6 +241,7 @@ class ChatRepository(context: Context/*application: Application*/) {
     }
 
     fun registerConversationlistener(from: String) {
+        refreshConversations(from)
         val listener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 refreshConversations(from)

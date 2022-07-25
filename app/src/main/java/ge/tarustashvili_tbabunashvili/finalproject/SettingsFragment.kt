@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.media.Image
+import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -38,6 +40,7 @@ class SettingsFragment(): Fragment() {
     private var nicknameData = ""
     private var usernameData = ""
     private var avatarData = ""
+    private lateinit var progressBar: ProgressBar
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,7 +57,8 @@ class SettingsFragment(): Fragment() {
         this.image = view.findViewById(R.id.pfp)
         this.username = view.findViewById(R.id.nm)
         this.profession = view.findViewById(R.id.pos)
-
+        this.progressBar = view.findViewById(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
         this.image.setOnClickListener {
             uploadImage(it)
         }
@@ -108,6 +112,7 @@ class SettingsFragment(): Fragment() {
                     .into(this.image)
             }
         }
+        progressBar.visibility = View.GONE
     }
 
 
@@ -123,6 +128,7 @@ class SettingsFragment(): Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == AppCompatActivity.RESULT_OK && requestCode == imageUploaded) {
             var imageUri = data?.data
+            progressBar.visibility = View.VISIBLE
             var user = getUpdatedInfo()
             signedInViewModel.uploadImage(User(username = user.username, nickname = user.nickname, job = user.job), imageUri!!)
         }

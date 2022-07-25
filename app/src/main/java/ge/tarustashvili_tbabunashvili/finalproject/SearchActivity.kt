@@ -12,11 +12,13 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +38,7 @@ class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
     private lateinit var currentNickname:String
     private lateinit var currentJob: String
     private lateinit var currentAvatar: String
+    private lateinit var progressBar: ProgressBar
     private val lst = mutableListOf<User>()
     private var adapter = SearchAdapter(this,lst,this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +56,9 @@ class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
         currentJob = intent.getStringExtra(myj)?: NO_DATA
         currentAvatar = intent.getStringExtra(mya)?:""
         findViewById<RecyclerView>(R.id.friendlist).adapter = adapter
-
+        progressBar = findViewById(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
+        findViewById<RecyclerView>(R.id.friendlist).visibility = View.INVISIBLE
         /*fun executeSearch(term: String): Flow<SearchResult> { ... }
 
         findViewById<EditText>(R.id.searchfriends).textChanges()
@@ -75,13 +80,18 @@ class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
 
                 searchFor = searchText
 
+
                 launch {
                     delay(300)  //debounce timeOut
                     if (searchText != searchFor)
                         return@launch
                     if (searchText.length > 2) {
+                        progressBar.visibility = View.VISIBLE
+                        findViewById<RecyclerView>(R.id.friendlist).visibility = View.INVISIBLE
                         searchViewModel.getByNickname(searchText)
                     }   else if (searchText == "") {
+                        progressBar.visibility = View.VISIBLE
+                        findViewById<RecyclerView>(R.id.friendlist).visibility = View.INVISIBLE
                         searchViewModel.getByNickname("")
                     }
 
@@ -162,6 +172,8 @@ class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
             if (user.username == currentUsername) continue
             newLst.add(user)
         }
+        progressBar.visibility = View.GONE
+        findViewById<RecyclerView>(R.id.friendlist).visibility = View.VISIBLE
         adapter.items = newLst
         adapter.notifyDataSetChanged()
         if (newLst.isEmpty()) {

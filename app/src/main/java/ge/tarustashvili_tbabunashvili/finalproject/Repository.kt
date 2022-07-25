@@ -123,8 +123,7 @@ class Repository (context: Context/*application: Application*/) {
        // Log.d("aq xo111 ", "shemodixar")
         users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
         currentUser.postValue(user)
-        val signedUser = firebaseAuth.currentUser
-        users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
+//        users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
         updateConversations(user)
       //  Log.d("aq xo ", "shemodixar")
     }
