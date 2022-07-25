@@ -13,5 +13,29 @@
     <dimen name="job_to_reg">80dp</dimen>
     <dimen name="search_start_padding">20dp</dimen>
     <dimen name="search_end_padding">50dp</dimen>
-
+    <dimen name="z">0dp</dimen>
+    <dimen name="collapsing_height">140dp</dimen>
+    <dimen name="img_marg">15dp</dimen>
+    <dimen name="tb_top">30dp</dimen>
+    <dimen name="tb_bot">64dp</dimen>
+    <dimen name="tb_text">20sp</dimen>
+    <dimen name="tb_av">100dp</dimen>
+    <dimen name="tb_prof">40dp</dimen>
+    <dimen name="tb_prof_marg">35dp</dimen>
+    <dimen name="img_bord">2dp</dimen>
+    <dimen name="rc_height">60dp</dimen>
+    <dimen name="rc_marg">25dp</dimen>
+    <dimen name="s_tb_height">110dp</dimen>
+    <dimen name="sb_size">48dp</dimen>
+    <dimen name="bb_marg">8dp</dimen>
+    <dimen name="bb_rad">32dp</dimen>
+    <dimen name="msg_text">16sp</dimen>
+    <dimen name="img_ft_height">180dp</dimen>
+    <dimen name="sj_bot">16dp</dimen>
+    <dimen name="ln_text">24sp</dimen>
+    <dimen name="date_marg">24dp</dimen>
+    <dimen name="shad_rad">3dp</dimen>
+    <dimen name="so_width">120dp</dimen>
+    <dimen name="so_marg">2dp</dimen>
+    <dimen name="upd_but_marg">42dp</dimen>
 </resources>

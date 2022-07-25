@@ -1,6 +1,5 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.search
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import ge.tarustashvili_tbabunashvili.finalproject.R
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 
 class SearchAdapter(var searchActivity: SearchActivity, var items: MutableList<User>, var listener: FriendListListener): RecyclerView.Adapter<SearchHolder>() {
@@ -26,7 +26,6 @@ class SearchAdapter(var searchActivity: SearchActivity, var items: MutableList<U
             holder.pfp.setImageResource(R.drawable.avatar_image_placeholder)
         }
         holder.name.text = items[position].nickname
-     //   Log.d("friendlist", holder.name.text.toString())
         holder.job.text = items[position].job
         holder.itemView.setOnClickListener{
             listener.onClickListener(items[position])

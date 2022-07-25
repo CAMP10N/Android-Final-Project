@@ -1,9 +1,7 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.search
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseUser
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 
 class SearchViewModel(val rep: FriendsRepository): ViewModel() {

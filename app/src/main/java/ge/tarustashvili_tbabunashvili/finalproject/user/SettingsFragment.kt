@@ -1,13 +1,8 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.user
 
-import android.app.Application
 import android.content.Intent
-import android.graphics.drawable.Drawable
-import android.media.Image
-import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import ge.tarustashvili_tbabunashvili.finalproject.R
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 import ge.tarustashvili_tbabunashvili.finalproject.databinding.UserSettingsFragmentBinding
 
@@ -34,7 +30,8 @@ class SettingsFragment(): Fragment() {
     private lateinit var updateButton: Button
     private lateinit var signOutButton: Button
     val signedInViewModel: SignedInViewModel by lazy {
-        ViewModelProvider(requireActivity(), SignedInViewModelsFactory(requireActivity().application)).get(SignedInViewModel::class.java)
+        ViewModelProvider(requireActivity(), SignedInViewModelsFactory(requireActivity().application)).get(
+            SignedInViewModel::class.java)
     }
     private var professionData = ""
     private var nicknameData = ""
@@ -46,9 +43,7 @@ class SettingsFragment(): Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       // Log.d("home", "oncreate")
         _binding = UserSettingsFragmentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -74,19 +69,8 @@ class SettingsFragment(): Fragment() {
         signedInViewModel.getCurrentUser().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 setData(it)
-                    //  Log.d("ha???", "sadas")
-            }   else {
-                //Log.d("eeh","eeh")
             }
         })
-       /* this.username.text = nicknameData
-        this.profession.text = professionData*/
-        /*if (avatarData != "") {
-            Glide.with(this)
-                .load(avatarData)
-                .circleCrop()
-                .into(this.image)
-        }*/
     }
 
 
@@ -101,7 +85,6 @@ class SettingsFragment(): Fragment() {
         professionData = user.job ?: ""
         usernameData = user.username ?: ""
         avatarData = user.avatar ?: ""
-    //    Log.d("wtftft", user.avatar.toString())
         if (view != null) {
             this.username.text = nicknameData
             this.profession.text = professionData
@@ -133,11 +116,6 @@ class SettingsFragment(): Fragment() {
             signedInViewModel.uploadImage(User(username = user.username, nickname = user.nickname, job = user.job), imageUri!!)
         }
     }
-
-    /*fun onUpdate(view: View) {
-        var user = getUpdatedInfo()
-        this.signedInViewModel.updateInfo(user)
-    }*/
 
     fun getUpdatedInfo(): User {
         return User(username = this.usernameData, nickname = this.username.text.toString(), job = this.profession.text.toString(), avatar = this.avatarData)

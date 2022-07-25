@@ -1,16 +1,15 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.signin
 
-import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
@@ -21,8 +20,6 @@ import java.util.*
 
 
 class Repository (context: Context/*application: Application*/) {
-
-    //  private lateinit var application: Application
     private var c = context
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private var userLiveData: MutableLiveData<FirebaseUser?> = MutableLiveData()
@@ -30,8 +27,8 @@ class Repository (context: Context/*application: Application*/) {
     private val users = Firebase.database.getReference("users")
     private val conversations = Firebase.database.getReference("conversations")
     private var currentUser: MutableLiveData<User?> = MutableLiveData()
+    private var convos:  MutableLiveData<MutableList<Conversation>?> = MutableLiveData()
     init {
-        // this.application = application
         if (firebaseAuth.currentUser != null) {
             userLiveData.postValue(firebaseAuth.currentUser)
             users.child(firebaseAuth.currentUser!!.uid).get().addOnSuccessListener {
@@ -40,10 +37,9 @@ class Repository (context: Context/*application: Application*/) {
                     username = it.child("username").getValue<String>(),
                     avatar = it.child("avatar").getValue<String>()
                 ))
-              //  Log.d("ratom", "gamirbixar")
-
             }.addOnFailureListener {
-              //  Log.d("ratom", "memalebi")
+                Toast.makeText(c, "Error while retrieving data!", Toast.LENGTH_SHORT).show()
+                Log.e("Exception from server", it.toString())
             }
         }
         loggedOutLiveData.postValue(firebaseAuth.currentUser == null)
@@ -61,55 +57,82 @@ class Repository (context: Context/*application: Application*/) {
         return currentUser
     }
 
+    fun registerConversationlistener(from: String) {
+        refreshConversations(from)
+        val listener = object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                refreshConversations(from)
+            }
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                refreshConversations(from)
+            }
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onCancelled(error: DatabaseError) {}
+        }
 
-    fun register(nickname: String, password: String, job: String) {
-        //var job = findViewById<EditText>(R.id.job).text.toString()
-        //progressDialog.show()
-        firebaseAuth.createUserWithEmailAndPassword(nickname,password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                  //  Log.d("ha","shig")
-                    userLiveData.postValue(firebaseAuth.currentUser);
-                    val newUser = User(username = nickname, nickname = nickname.substringBefore("@android.com"), job = job)
-                  //  Log.d("shigxoargaq", firebaseAuth.currentUser?.uid!!)
-                    users.child(firebaseAuth.currentUser?.uid!!).setValue(newUser)
-                        .addOnCompleteListener {
-                          //  Log.d("wtf", it.toString())
-                        }
-                        .addOnFailureListener {
-                          //  Log.d("tff", it.toString())
-                        }
-                    /*
-                        .addOnFailureListener {
-                            Log.d("asdasdasdasdasdasd", it.toString())
-                        }
-                        .addOnSuccessListener {
-                            Log.d("aasdasdasdasdasdasdaqwe", "ssuuuuuuuuuuuuuuucceeeeeeeeedd")
-                        }*/
-                    //startActivity(Intent(this.application.applicationContext, UserActivity::class.java))
-                    //finish()
-                }   else {
-                    //    progressDialog.dismiss()
-                    Toast.makeText(c, "You were not registered", Toast.LENGTH_LONG).show()
-                  //  Log.d("er", it.exception.toString())
+        conversations
+            .orderByChild("from")
+            .equalTo(from)
+            .addChildEventListener(listener)
+        conversations
+            .orderByChild("to")
+            .equalTo(from)
+            .addChildEventListener(listener)
+    }
+
+
+    private fun refreshConversations(from: String) {
+        conversations
+            .get()
+            .addOnSuccessListener {
+                val conv = mutableListOf<Conversation>()
+                for (obj in it.children) {
+                    val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                    if (singleConversation.from == from || singleConversation.to == from) conv.add(singleConversation)
                 }
+                conv.sort()
+                convos.postValue(conv)
             }
             .addOnFailureListener {
-                Toast.makeText(c, "failed to register", Toast.LENGTH_LONG)
-                    //  Log.d("fail", "failed to register")
-                throw it
+                Toast.makeText(c, "Error while retrieving data!", Toast.LENGTH_SHORT).show()
+                Log.e("Exception from server", it.toString())
+            }
+    }
+
+    fun getConversationsList(): MutableLiveData<MutableList<Conversation>?> {
+        return convos
+    }
+
+
+    fun getByNickname(nickname: String, rec: String) {
+        conversations
+            .get()
+            .addOnSuccessListener {
+                val conv = mutableListOf<Conversation>()
+                for (obj in it.children) {
+                    val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                    if (singleConversation.from != rec && singleConversation.to != rec) continue
+                    if ((singleConversation.from!!.startsWith(nickname)) || (singleConversation.to!!.startsWith(nickname)))
+                        conv.add(singleConversation)
+                }
+                conv.sort()
+                convos.postValue(conv)
+            }
+            .addOnFailureListener {
+                Toast.makeText(c, "Error while retrieving data!", Toast.LENGTH_SHORT).show()
+                Log.e("Exception from server", it.toString())
             }
     }
 
     fun login(nickname: String, password: String){
-       // Log.d("haa", "Wtf")
         firebaseAuth.signInWithEmailAndPassword(nickname,password)
             .addOnSuccessListener {
                 userLiveData.postValue(firebaseAuth.currentUser)
             }
             .addOnFailureListener {
-              //  Log.d("asd",it.toString())
                 Toast.makeText(c, "Log in failed", Toast.LENGTH_LONG).show()
+                Log.e("Exception from server", it.toString())
             }
     }
 
@@ -120,12 +143,9 @@ class Repository (context: Context/*application: Application*/) {
     }
 
     fun updateInfo(user: User) {
-       // Log.d("aq xo111 ", "shemodixar")
         users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
         currentUser.postValue(user)
-//        users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
         updateConversations(user)
-      //  Log.d("aq xo ", "shemodixar")
     }
 
     private fun updateConversations(user: User) {
@@ -162,14 +182,16 @@ class Repository (context: Context/*application: Application*/) {
                                 avatarTo = user.avatar,
                                 jobTo = user.job,
                                 nicknameTo = user.nickname,
-                                avatarFrom = singleConversation.avatarTo,
-                                jobFrom = singleConversation.jobTo,
-                                nicknameFrom = singleConversation.nicknameTo
+                                avatarFrom = singleConversation.avatarFrom,
+                                jobFrom = singleConversation.jobFrom,
+                                nicknameFrom = singleConversation.nicknameFrom
                             )) }
                     }
                 }
             }
             .addOnFailureListener {
+                Toast.makeText(c, "Error while retrieving data!", Toast.LENGTH_SHORT).show()
+                Log.e("Exception from server", it.toString())
             }
     }
 
@@ -188,8 +210,10 @@ class Repository (context: Context/*application: Application*/) {
             if (task.isSuccessful) {
                 val downloadUri = task.result
                 updateInfo(User(username = user.username, nickname = user.nickname, job = user.job, avatar = downloadUri.toString()))
-                //presenter.imageUploaded(downloadUri.toString())
             }
+        }.addOnFailureListener {
+            Toast.makeText(c, "Error while uploading image!", Toast.LENGTH_SHORT).show()
+            Log.e("Exception from server", it.toString())
         }
     }
 }

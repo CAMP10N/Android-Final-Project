@@ -1,31 +1,26 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.search
 
 import android.app.Application
-import android.app.appsearch.SearchResult
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.provider.ContactsContract
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.AppBarLayout
+import ge.tarustashvili_tbabunashvili.finalproject.R
+import ge.tarustashvili_tbabunashvili.finalproject.chat.ChatActivity
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
-import java.util.concurrent.Flow
 import kotlin.coroutines.CoroutineContext
 
 class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
@@ -51,7 +46,6 @@ class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
             }
         })
         currentUsername = intent.getStringExtra(myun)?: NO_DATA
-      //  Log.d("user in intent", currentUsername)
         currentNickname = intent.getStringExtra(myn)?: NO_DATA
         currentJob = intent.getStringExtra(myj)?: NO_DATA
         currentAvatar = intent.getStringExtra(mya)?:""
@@ -59,16 +53,6 @@ class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
         progressBar = findViewById(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
         findViewById<RecyclerView>(R.id.friendlist).visibility = View.INVISIBLE
-        /*fun executeSearch(term: String): Flow<SearchResult> { ... }
-
-        findViewById<EditText>(R.id.searchfriends).textChanges()
-            .filterNot { findViewById<EditText>(R.id.searchfriends).isNullOrBlank() }
-            .debounce(300)
-            .distinctUntilChanged()
-            .flatMapLatest { executeSearch(it) }
-            .onEach { updateUI(it) }
-            .launchIn(lifecycleScope)
-*/
 
         val watcher = object :TextWatcher{
             private var searchFor = ""
@@ -102,61 +86,6 @@ class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
         }
         findViewById<EditText>(R.id.searchfriends).addTextChangedListener(watcher)
-/*
-        val watcher = object : TextWatcher {
-            private var name = ""
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val text = s.toString().trim()
-                Log.d("eh", text)
-                if (text.length > 2) {
-                    var runnable: Runnable? = null
-                    var handler: Handler = Handler()
-                    if (runnable != null)
-                        handler.removeCallbacks(runnable!!)
-                    runnable = Runnable {
-                        searchViewModel.getByNickname(text)
-                    }
-                    handler.postDelayed(runnable!!, 500);
-                }
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-        }*/
-/*
-
-        findViewById<EditText>(R.id.searchfriends).addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-                val nick = findViewById<EditText>(R.id.searchfriends).text.toString()
-                if (nick.length > 2) {
-                    var runnable: Runnable? = null
-                    var handler: Handler = Handler()
-                    if (runnable != null)
-                        handler.removeCallbacks(runnable!!)
-                    runnable = Runnable {
-                        searchViewModel.getByNickname(nick)
-                    }
-                    handler.postDelayed(runnable!!, 500);
-                }
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-
-            }
-        })
-*/
-
     }
 
     companion object {
@@ -182,7 +111,6 @@ class SearchActivity : AppCompatActivity(), FriendListListener, CoroutineScope {
     }
 
     override fun onClickListener(user: User) {
-       // Log.d("adsadasdsdsd","mamsndad")
         Log.d("ra xdeba ver gevige", user.avatar.toString())
         var intent = Intent(this, ChatActivity::class.java).apply {
             putExtra(ChatActivity.tonick, user.nickname)

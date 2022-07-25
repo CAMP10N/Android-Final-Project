@@ -1,4 +1,4 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.signin
 
 import android.app.Application
 import android.app.ProgressDialog
@@ -12,17 +12,16 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
+import ge.tarustashvili_tbabunashvili.finalproject.R
+import ge.tarustashvili_tbabunashvili.finalproject.user.UserActivity
+import ge.tarustashvili_tbabunashvili.finalproject.signup.SignUpActivity
 
 class SignInActivity : AppCompatActivity() {
 
-    val signInAndUpViewModel: SignInAndUpViewModel by lazy {
-        ViewModelProvider(this, MainViewModelsFactory(application)).get(SignInAndUpViewModel::class.java)
+    val signInViewModel: SignInViewModel by lazy {
+        ViewModelProvider(this, MainViewModelsFactory(application)).get(SignInViewModel::class.java)
     }
 
-    //private val signInAndUpViewModel = ViewModelProvider.AndroidViewModelFactory(application).create(SignInAndUpViewModel::class.java)
-    // private val signInAndUpViewModel = ViewModelProvider.AndroidViewModelFactory(application).create(v::class.java)
-    private lateinit var progressDialog: ProgressDialog
-    private lateinit var firebaseAuth: FirebaseAuth
     private var nickname = ""
     private var password = ""
 
@@ -31,30 +30,14 @@ class SignInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        signInAndUpViewModel.getUserLiveData().observe(this, Observer {
+        signInViewModel.getUserLiveData().observe(this, Observer {
             if (it != null) {
                 startActivity(Intent(this, UserActivity::class.java))
                 finish()
             }
         })
-        /*
-        progressDialog = ProgressDialog(this)
-        progressDialog.setTitle("Please wait...")
-        progressDialog.setMessage("Logging in...")
-        progressDialog.setCanceledOnTouchOutside(false)*/
-
-        /*     firebaseAuth = FirebaseAuth.getInstance()
-             checkIfLogged()*/
     }
 
-
-    /*fun checkIfLogged() {
-        val user = firebaseAuth.currentUser
-        if (user != null) {
-            startActivity(Intent(this, UserActivity::class.java))
-            finish()
-        }
-    }*/
 
     fun onRegisterClick(view: View) {
         startActivity(Intent(this, SignUpActivity::class.java))
@@ -75,10 +58,8 @@ class SignInActivity : AppCompatActivity() {
             Toast.makeText(this, "Password must be at least 6 characters long!", Toast.LENGTH_SHORT).show()
             return
         }
-        signInAndUpViewModel.login(nickname.fakeMail(),password)
+        signInViewModel.login(nickname.fakeMail(),password)
     }
-
-
 }
 
 
@@ -89,8 +70,8 @@ fun String.fakeMail(): String {
 
 class MainViewModelsFactory(var application: Application) : ViewModelProvider.Factory {
     override fun <T : androidx.lifecycle.ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SignInAndUpViewModel::class.java)) {
-            return SignInAndUpViewModel(Repository(this.application.applicationContext)) as T
+        if (modelClass.isAssignableFrom(SignInViewModel::class.java)) {
+            return SignInViewModel(Repository(this.application.applicationContext)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

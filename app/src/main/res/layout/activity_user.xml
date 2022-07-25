@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserActivity" >
+    tools:context=".user.UserActivity" >
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/user_body"
@@ -32,10 +32,10 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:layout_gravity="bottom"
-            app:contentInsetStart="0dp"
+            app:contentInsetStart="@dimen/z"
             app:fabAlignmentMode="center"
-            app:fabCradleMargin="8dp"
-            app:fabCradleRoundedCornerRadius="32dp"
+            app:fabCradleMargin="@dimen/bb_marg"
+            app:fabCradleRoundedCornerRadius="@dimen/bb_rad"
             app:hideOnScroll="true">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -1,27 +1,20 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.user
 
 import android.app.Application
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.FirebaseAuth
+import ge.tarustashvili_tbabunashvili.finalproject.R
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
+import ge.tarustashvili_tbabunashvili.finalproject.search.SearchActivity
+import ge.tarustashvili_tbabunashvili.finalproject.signin.Repository
+import ge.tarustashvili_tbabunashvili.finalproject.signin.SignInActivity
 
 
 class UserActivity : AppCompatActivity() {
@@ -48,9 +41,6 @@ class UserActivity : AppCompatActivity() {
         signedInViewModel.getCurrentUser().observe(this, Observer {
             if (it != null) {
                 currentUser = it
-             //   Log.d("useruseruser", it.toString())
-            }   else {
-             //   Log.d("eeh","eeh")
             }
         })
 
@@ -74,7 +64,6 @@ class UserActivity : AppCompatActivity() {
         })
 
         navView.setOnItemSelectedListener {
-        //    Log.d("navbar", "clicked")
             when(it.itemId) {
                 R.id.home -> vp.currentItem = 0
                 R.id.settings -> vp.currentItem = 1
@@ -82,30 +71,12 @@ class UserActivity : AppCompatActivity() {
             true
         }
     }
-/*
-    private val imageUploaded = 100
-
-    fun uploadImage(view: View) {
-        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        startActivityForResult(gallery, imageUploaded)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == imageUploaded) {
-            var imageUri = data?.data
-            var user = (fragments[1] as SettingsFragment).getUpdatedInfo()
-            signedInViewModel.uploadImage(User(username = user.username, nickname = user.nickname, job = user.job), imageUri!!)
-        }
-    }*/
 
     override fun onStart() {
         super.onStart()
-      //  Log.d("main", "onstart")
     }
 
     fun onSearchClick(view: View) {
-     //   Log.d("user in user", currentUser.username ?: "nothing easy")
         var intent = Intent(this, SearchActivity::class.java).apply {
             putExtra(SearchActivity.myn, currentUser.nickname)
             putExtra(SearchActivity.myj, currentUser.job)
@@ -115,16 +86,6 @@ class UserActivity : AppCompatActivity() {
         startActivity(intent)
 
     }
-
-
-    /* fun logout(view: View) {
-         signedInViewModel.logOut()
-     }*/
-/*
-    fun onUpdate(view: View) {
-        var user = (fragments[1] as SettingsFragment).getUpdatedInfo()
-        signedInViewModel.updateInfo(user)
-    }*/
 
 }
 

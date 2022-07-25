@@ -1,4 +1,4 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.chat
 
 //import android.R
 import android.app.Application
@@ -24,6 +24,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.FOCUS_DOWN
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import ge.tarustashvili_tbabunashvili.finalproject.R
+import ge.tarustashvili_tbabunashvili.finalproject.user.UserActivity
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.Message
 import java.util.*
 
@@ -97,18 +99,9 @@ class ChatActivity : AppCompatActivity() {
         toNameNPoscoll.text = finalText
 
         toPfpstr = intent.getStringExtra(topfp)?:""
-        Log.d("To Nickname", toNicknamestr)
-        Log.d("To Profession" , toJobstr)
-        Log.d("To Username", toUserName)
-        Log.d("To profile", toPfpstr)
-        Log.d("from username", currentUsername)
-        Log.d("from nickname", currentNickname)
-        Log.d("From profession", currentJob)
-        Log.d("From profile", currentAvatar)
         toNickname.text = toNicknamestr
         toJob.text = toJobstr
         if (toPfpstr != "") {
-          //  Log.d("wamoigo","uuff")
             Glide.with(this)
                 .load(toPfpstr)
                 .circleCrop()
@@ -118,9 +111,6 @@ class ChatActivity : AppCompatActivity() {
                 .circleCrop()
                 .into(toPfpcoll)
         }
-//        toolbar.addOnOffsetChangedListener() {
-//
-//        }
         chat.adapter = MessagesAdapter(currentUsername, emptyList())
         var mListener =
             OnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -155,11 +145,7 @@ class ChatActivity : AppCompatActivity() {
 
     fun updateData(messages: MutableList<Message>)   {
         (chat.adapter as MessagesAdapter).items = messages
-      //  Log.d("recyclerrr", (chat.adapter as MessagesAdapter).items.toString())
         (chat.adapter as MessagesAdapter).notifyDataSetChanged()
-      //  Log.d("infomsg", messages.toString())
-        Log.d("infomsg", messages.toString())
-//        scroll.fullScroll(FOCUS_DOWN)
         scroll.smoothScrollTo(0, scroll.height)
     }
 
@@ -167,13 +153,11 @@ class ChatActivity : AppCompatActivity() {
         val message = this.messageField.text.toString()
         val to = this.toUserName
         val date = Calendar.getInstance().time
-    //    Log.d("useri", currentUsername)
         if (message != "") {
             chatViewModel.sendMessage(currentUsername, to, message, date)
             chatViewModel.updateConversation(currentUsername,to, date, message,  currentAvatar,toPfpstr, currentNickname, toNicknamestr, currentJob, toJobstr)
         }
         messageField.setText("")
-//        scroll.fullScroll(FOCUS_DOWN)
         scroll.smoothScrollTo(0, scroll.height + 30)
 
     }

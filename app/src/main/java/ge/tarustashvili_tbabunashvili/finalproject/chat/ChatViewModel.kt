@@ -1,4 +1,4 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.chat
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,25 +13,12 @@ class ChatViewModel(val rep: ChatRepository): ViewModel() {
         rep.sendMessage(from, to,message,time)
     }
 
-
-    fun getByNickname(nickname: String, rec: String) {
-        rep.getByNickname(nickname, rec)
-    }
-
     fun registerListener(from: String, to: String) {
         rep.registerMessagesListener(from,to)
     }
 
-    fun registerConversationListener(from: String) {
-        rep.registerConversationlistener(from)
-    }
-
     fun getConvos(): MutableLiveData<MutableList<Message>?> {
         return rep.getConvos()
-    }
-
-    fun getConversationsList(): MutableLiveData<MutableList<Conversation>?> {
-        return rep.getConversationsList()
     }
 
     fun updateConversation(from: String, to: String, time: Date, message: String, avatarFrom: String, avatarTo: String,

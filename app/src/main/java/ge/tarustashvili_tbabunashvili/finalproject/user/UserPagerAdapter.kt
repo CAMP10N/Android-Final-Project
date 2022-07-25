@@ -1,4 +1,4 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.user
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

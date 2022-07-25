@@ -1,16 +1,16 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.search
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
-import java.util.*
-import kotlin.collections.ArrayList
 
 class FriendsRepository(context: Context) {
+    private val c = context
     private val users = Firebase.database.getReference("users")
     private var friends: MutableLiveData<MutableList<User>?> = MutableLiveData()
     init {
@@ -29,7 +29,8 @@ class FriendsRepository(context: Context) {
                 onFriendsFetched(it)
             }
             .addOnFailureListener {
-                Log.d("ra gindaa", it.toString())
+                Toast.makeText(c, "Error while retrieving data!", Toast.LENGTH_SHORT).show()
+                Log.e("Exception from server", it.toString())
             }
     }
 

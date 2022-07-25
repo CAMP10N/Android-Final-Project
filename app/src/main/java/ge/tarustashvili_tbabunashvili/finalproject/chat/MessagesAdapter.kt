@@ -1,10 +1,11 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.chat
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ge.tarustashvili_tbabunashvili.finalproject.R
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.Message
 import java.util.*
 
@@ -27,20 +28,12 @@ class MessagesAdapter(private var curruser: String, var items: List<Message>): R
 
     override fun onBindViewHolder(holder: MessageHolder, position: Int) {
         holder.message.text = items[position].message
-        var datetxt = items[position].date?.let { parseDate(it) }
+        var datetxt = items[position].date?.let { it.parseForMessage() }
         holder.date.text = datetxt
     }
 
     override fun getItemCount(): Int {
         return items.size
-    }
-
-    private fun parseDate(date: Date): String {
-        var d2s: String
-        var hours = if (date.hours >= 10) date.hours.toString() else "0" + date.hours.toString()
-        var minutes = if (date.minutes >= 10) date.minutes.toString() else "0" + date.minutes.toString()
-        d2s = hours + ":" + minutes
-        return d2s
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -51,4 +44,12 @@ class MessagesAdapter(private var curruser: String, var items: List<Message>): R
 class MessageHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     var message: TextView = itemView.findViewById(R.id.chat_chat)
     var date: TextView = itemView.findViewById(R.id.time)
+}
+
+fun Date.parseForMessage(): String {
+    var d2s: String
+    var hours = if (this.hours >= 10) this.hours.toString() else "0" + this.hours.toString()
+    var minutes = if (this.minutes >= 10) this.minutes.toString() else "0" + this.minutes.toString()
+    d2s = hours + ":" + minutes
+    return d2s
 }

@@ -1,11 +1,12 @@
-package ge.tarustashvili_tbabunashvili.finalproject
+package ge.tarustashvili_tbabunashvili.finalproject.user
 
-import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
+import ge.tarustashvili_tbabunashvili.finalproject.data.model.Conversation
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
+import ge.tarustashvili_tbabunashvili.finalproject.signin.Repository
 
 class SignedInViewModel(val rep: Repository): ViewModel() {
     private var repository = rep
@@ -16,10 +17,6 @@ class SignedInViewModel(val rep: Repository): ViewModel() {
         repository.logOut()
     }
 
-    fun getUserLiveData(): MutableLiveData<FirebaseUser?> {
-        return userLiveData
-    }
-
     fun getLoggedOutLiveData(): MutableLiveData<Boolean> {
         return loggedOutLiveData
     }
@@ -27,6 +24,19 @@ class SignedInViewModel(val rep: Repository): ViewModel() {
 
     fun getCurrentUser(): MutableLiveData<User?> {
         return repository.getCurrentUser()
+    }
+
+
+    fun getByNickname(nickname: String, rec: String) {
+        rep.getByNickname(nickname, rec)
+    }
+
+    fun registerConversationListener(from: String) {
+        rep.registerConversationlistener(from)
+    }
+
+    fun getConversationsList(): MutableLiveData<MutableList<Conversation>?> {
+        return rep.getConversationsList()
     }
 
     fun updateInfo(user: User) {

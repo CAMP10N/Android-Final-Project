@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginTop="@dimen/sign_up_margin"
+    android:layout_marginBottom="@dimen/sign_up_margin">
 
     <TextView
         android:id="@+id/time"
@@ -14,25 +14,25 @@
         app:layout_constraintStart_toEndOf="@id/chat_chat"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="15dp"
-        android:text="12:23"
+        android:layout_marginStart="@dimen/img_marg"
+        tools:text="@string/t"
         android:textColor="@color/grey"/>
 
     <TextView
         android:id="@+id/chat_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginEnd="@dimen/tb_av"
+        android:layout_marginStart="@dimen/avatar_margin"
         android:background="@drawable/his_chat_border"
         android:backgroundTint="@color/light"
-        android:text="asdasdasfasdfasdfasdasdasdfadfaddgasdgadgasdgdfasdfasdfaasdfasdfdfasdfdfasdfdsfasdfdasfasdffasdfasdgadfadfasdfadfadfsdfadfasdfasdfa"
+        tools:text="@string/t"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="16dp"
-        android:paddingHorizontal="25dp"
-        android:paddingVertical="25dp"/>
+        android:textSize="@dimen/msg_text"
+        android:paddingHorizontal="@dimen/rc_marg"
+        android:paddingVertical="@dimen/rc_marg"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

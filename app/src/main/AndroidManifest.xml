@@ -17,15 +17,15 @@
         android:theme="@style/Theme.FinalProject"
         tools:targetApi="31">
         <activity
-            android:name=".ChatActivity"
-            android:parentActivityName=".UserActivity"
+            android:name=".chat.ChatActivity"
+            android:parentActivityName=".user.UserActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".signin.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,10 +34,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserActivity"
+            android:name=".user.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".signup.SignUpActivity"
             android:exported="false" />
     </application>
 
