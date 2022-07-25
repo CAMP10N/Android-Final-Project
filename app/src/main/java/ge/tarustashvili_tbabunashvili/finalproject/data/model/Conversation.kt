@@ -17,4 +17,9 @@ data class Conversation(
     val avatarTo: String? = null,
     val nicknameFrom: String? = null,
     val nicknameTo: String? = null
-)
+) : Comparable<Conversation> {
+    override fun compareTo(other: Conversation): Int {
+        return date!!.compareTo(other.date)
+    }
+
+}

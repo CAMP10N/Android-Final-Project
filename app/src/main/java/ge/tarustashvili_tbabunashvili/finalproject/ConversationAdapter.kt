@@ -13,16 +13,15 @@ import ge.tarustashvili_tbabunashvili.finalproject.data.model.Conversation
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.User
 import java.util.*
 
-class ConverstationAdapter(private var items: List<Conversation>, private var context: Context, private var currentUser: User): RecyclerView.Adapter<ConverstationHolder>() {
+class ConversationAdapter(var items: List<Conversation>, private var context: Context, var currentUserName: String): RecyclerView.Adapter<ConverstationHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConverstationHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.reusable_converstations, parent, false)
         return ConverstationHolder(view)
     }
 
     override fun onBindViewHolder(holder: ConverstationHolder, position: Int) {
-
         var avatarlink = items[position].avatarFrom
-        if (items[position].from == currentUser.username) {
+        if (items[position].from == currentUserName) {
             //holder.pfp.setImageDrawable()
             avatarlink = items[position].avatarTo
             holder.name.text = items[position].nicknameTo

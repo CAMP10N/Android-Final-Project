@@ -15,7 +15,7 @@ class FriendsRepository(context: Context) {
     private var friends: MutableLiveData<MutableList<User>?> = MutableLiveData()
     init {
         users.get().addOnSuccessListener {
-            Log.d("wamoigoo?", it.children.count().toString())
+            //Log.d("wamoigoo?", it.children.count().toString())
             onFriendsFetched(it)
         }
     }

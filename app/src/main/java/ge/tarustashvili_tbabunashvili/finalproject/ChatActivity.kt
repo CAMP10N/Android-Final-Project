@@ -99,7 +99,7 @@ class ChatActivity : AppCompatActivity() {
         toNickname.text = toNicknamestr
         toJob.text = toJobstr
         if (toPfpstr != NO_DATA) {
-            Log.d("wamoigo","uuff")
+          //  Log.d("wamoigo","uuff")
             Glide.with(this)
                 .load(toPfpstr)
                 .circleCrop()
@@ -143,16 +143,16 @@ class ChatActivity : AppCompatActivity() {
 
     fun updateData(messages: MutableList<Message>)   {
         (chat.adapter as MessagesAdapter).items = messages
-        Log.d("recyclerrr", (chat.adapter as MessagesAdapter).items.toString())
+      //  Log.d("recyclerrr", (chat.adapter as MessagesAdapter).items.toString())
         (chat.adapter as MessagesAdapter).notifyDataSetChanged()
-        Log.d("infomsg", messages.toString())
+      //  Log.d("infomsg", messages.toString())
     }
 
     fun onSend(view: View) {
         val message = this.messageField.text.toString()
         val to = this.toUserName
         val date = Calendar.getInstance().time
-        Log.d("useri", currentUsername)
+    //    Log.d("useri", currentUsername)
         if (message != "") {
             chatViewModel.sendMessage(currentUsername, to, message, date)
             chatViewModel.updateConversation(currentUsername,to, date, message,  currentAvatar,toAvatar, currentNickname, toNicknamestr)

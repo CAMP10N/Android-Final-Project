@@ -40,9 +40,9 @@ class UserActivity : AppCompatActivity() {
         signedInViewModel.getCurrentUser().observe(this, Observer {
             if (it != null) {
                 currentUser = it
-                Log.d("useruseruser", it.toString())
+             //   Log.d("useruseruser", it.toString())
             }   else {
-                Log.d("eeh","eeh")
+             //   Log.d("eeh","eeh")
             }
         })
 
@@ -64,7 +64,7 @@ class UserActivity : AppCompatActivity() {
         })
 
         navView.setOnItemSelectedListener {
-            Log.d("navbar", "clicked")
+        //    Log.d("navbar", "clicked")
             when(it.itemId) {
                 R.id.home -> vp.currentItem = 0
                 R.id.settings -> vp.currentItem = 1
@@ -91,11 +91,11 @@ class UserActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("main", "onstart")
+      //  Log.d("main", "onstart")
     }
 
     fun onSearchClick(view: View) {
-        Log.d("user in user", currentUser.username ?: "nothing easy")
+     //   Log.d("user in user", currentUser.username ?: "nothing easy")
         var intent = Intent(this, SearchActivity::class.java).apply {
             putExtra(SearchActivity.myn, currentUser.nickname)
             putExtra(SearchActivity.myj, currentUser.job)

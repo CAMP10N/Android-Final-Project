@@ -43,7 +43,7 @@ class SettingsFragment(): Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("home", "oncreate")
+       // Log.d("home", "oncreate")
         _binding = UserSettingsFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -70,9 +70,9 @@ class SettingsFragment(): Fragment() {
         signedInViewModel.getCurrentUser().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 setData(it)
-                Log.d("ha???", "sadas")
+                    //  Log.d("ha???", "sadas")
             }   else {
-                Log.d("eeh","eeh")
+                //Log.d("eeh","eeh")
             }
         })
        /* this.username.text = nicknameData
@@ -97,7 +97,7 @@ class SettingsFragment(): Fragment() {
         professionData = user.job ?: ""
         usernameData = user.username ?: ""
         avatarData = user.avatar ?: ""
-        Log.d("wtftft", user.avatar.toString())
+    //    Log.d("wtftft", user.avatar.toString())
         if (view != null) {
             this.username.text = nicknameData
             this.profession.text = professionData

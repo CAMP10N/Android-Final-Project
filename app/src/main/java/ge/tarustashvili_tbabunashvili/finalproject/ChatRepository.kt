@@ -28,7 +28,7 @@ class ChatRepository(context: Context/*application: Application*/) {
     private val conversations = Firebase.database.getReference("conversations")
 
     private var myConvos: MutableLiveData<MutableList<Message>?> = MutableLiveData()
-
+    private var convos:  MutableLiveData<MutableList<Conversation>?> = MutableLiveData()
     init {
       /*  if (firebaseAuth.currentUser != null) {
             Log.d("aq", "shemovida chat ")
@@ -68,7 +68,7 @@ class ChatRepository(context: Context/*application: Application*/) {
                 )
             )
         }
-        Log.d("conversation", "ar amatebs")
+   //     Log.d("conversation", "ar amatebs")
        /* updateConversation(from,to)
         Log.d("conversation222", "ar amatebs222")
         conversations.push().key?.let {
@@ -100,8 +100,54 @@ class ChatRepository(context: Context/*application: Application*/) {
 
     fun updateConversation(from: String, to: String, time: Date, message: String, avatarFrom: String, avatarTo: String,
                                 nicknameFrom: String, nicknameTo: String) {
-        removeConvo(getCombined(from,to))
-        writeNewConvo(from,to,time,message,avatarFrom,avatarTo, nicknameFrom, nicknameTo)
+        //removeConvo(getCombined(from,to))
+        conversations
+            .orderByChild("comb")
+            .equalTo(getCombined(from,to))
+            .get()
+            .addOnSuccessListener {
+                //   Log.d("ma",it.children.toString())
+                var exists = false
+                val newconv = Conversation(
+                    comb = getCombined(from,to),
+                    from = from,
+                    to = to,
+                    date = time,
+                    message = message,
+                    avatarFrom = avatarFrom,
+                    avatarTo = avatarTo,
+                    nicknameFrom = nicknameFrom,
+                    nicknameTo = nicknameTo
+                )
+                for (obj in it.children) {
+                    val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                    if (singleConversation.from == to || singleConversation.to == to) {
+                        exists = true
+                        obj.key?.let { it1 -> conversations.child(it1).setValue(newconv) }
+                    }
+                }
+                if (!exists) {
+                    conversations.push().key?.let { it1 ->
+                        conversations.child(it1).setValue(
+                            Conversation(
+                                comb = getCombined(from,to),
+                                from = from,
+                                to = to,
+                                date = time,
+                                message = message,
+                                avatarFrom = avatarFrom,
+                                avatarTo = avatarTo,
+                                nicknameFrom = nicknameFrom,
+                                nicknameTo = nicknameTo
+                            )
+                        )
+                    }
+                }
+            }
+            .addOnFailureListener {
+                //  Log.d("vasdasdsd", it.toString())
+            }
+        //writeNewConvo(from,to,time,message,avatarFrom,avatarTo, nicknameFrom, nicknameTo)
 /*
         conversations
             .orderByChild("comb")
@@ -125,14 +171,12 @@ class ChatRepository(context: Context/*application: Application*/) {
             .equalTo(comb)
             .get()
             .addOnSuccessListener {
-                Log.d("ma",it.children.toString())
-                var messageList = mutableListOf<Message>()
                 for (obj in it.children) {
                     obj.key?.let { it1 -> conversations.child(it1).removeValue()}
                 }
             }
             .addOnFailureListener {
-                Log.d("vasdasdsd", it.toString())
+              //  Log.d("vasdasdsd", it.toString())
             }
     }
 
@@ -155,8 +199,6 @@ class ChatRepository(context: Context/*application: Application*/) {
         }
     }
     fun registerMessagesListener(from: String, to: String) {
-        val registerTime = Date()
-
         val listener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 refreshData(from, to)
@@ -174,8 +216,103 @@ class ChatRepository(context: Context/*application: Application*/) {
 
     }
 
+    fun registerConversationlistener(from: String) {
+        val listener = object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                refreshConversations(from)
+            }
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                refreshConversations(from)
+            }
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onCancelled(error: DatabaseError) {}
+        }
+
+        conversations
+            .orderByChild("from")
+            .equalTo(from)
+            .addChildEventListener(listener)
+        conversations
+            .orderByChild("to")
+            .equalTo(from)
+            .addChildEventListener(listener)
+    }
+
+
+    private fun refreshConversations(from: String) {
+        val conv = mutableListOf<Conversation>()
+        conversations
+            .orderByChild("from")
+            .equalTo(from)
+            .get()
+            .addOnSuccessListener {
+                for (obj in it.children) {
+                    val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                    Log.d("esec", singleConversation.toString())
+                    conv.add(singleConversation)
+                }
+
+                /*conversations
+                    .orderByChild("to")
+                    .equalTo(from)
+                    .get()
+                    .addOnSuccessListener { it1 ->
+                        Log.d("ma",it1.children.toString())
+                        for (obj in it1.children) {
+                            val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                            conv.add(singleConversation)
+                        }
+                    }
+                    .addOnFailureListener { it2 ->
+                        Log.d("vasdasdsd", it2.toString())
+                    }
+                conv.sort()
+                convos.postValue(conv)*/
+            }
+            .addOnFailureListener {
+            }
+        conversations
+            .orderByChild("to")
+            .equalTo(from)
+            .get()
+            .addOnSuccessListener { it1 ->
+                for (obj in it1.children) {
+                    val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                    conv.add(singleConversation)
+                }
+                conv.sort()
+                convos.postValue(conv)
+            }
+            .addOnFailureListener { it2 ->
+            }
+
+       /* conversations
+            .orderByChild("to")
+            .equalTo(from)
+            .get()
+            .addOnSuccessListener {
+                Log.d("ma",it.children.toString())
+                for (obj in it.children) {
+                    val singleConversation: Conversation = obj.getValue(Conversation::class.java) as Conversation
+                    conv.add(singleConversation)
+                }
+            }
+            .addOnFailureListener {
+                Log.d("vasdasdsd", it.toString())
+            }*/
+        /*conv.sort()
+        Log.d("ANSUMANE",conv.toString())
+        Log.d("ANSUMANE12", from)
+        convos.postValue(conv)*/
+    }
+
     fun getConvos(): MutableLiveData<MutableList<Message>?> {
         return myConvos
+    }
+
+    fun getConversationsList(): MutableLiveData<MutableList<Conversation>?> {
+        return convos
     }
 
     fun refreshData(from: String, to: String) {
@@ -184,7 +321,7 @@ class ChatRepository(context: Context/*application: Application*/) {
             .equalTo(getCombined(from,to))
             .get()
             .addOnSuccessListener {
-                Log.d("ma",it.children.toString())
+            //    Log.d("ma",it.children.toString())
                 var messageList = mutableListOf<Message>()
                 for (obj in it.children) {
                     var message: Message = obj.getValue(Message::class.java) as Message
@@ -194,7 +331,7 @@ class ChatRepository(context: Context/*application: Application*/) {
                 myConvos.postValue(messageList)
             }
             .addOnFailureListener {
-                Log.d("vasdasdsd", it.toString())
+            //    Log.d("vasdasdsd", it.toString())
             }
     }
 

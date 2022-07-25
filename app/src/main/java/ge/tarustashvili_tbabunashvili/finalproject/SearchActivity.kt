@@ -40,7 +40,7 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
             }
         })
         currentUsername = intent.getStringExtra(myun)?: NO_DATA
-        Log.d("user in intent", currentUsername)
+      //  Log.d("user in intent", currentUsername)
         currentNickname = intent.getStringExtra(myn)?: NO_DATA
         currentJob = intent.getStringExtra(myj)?: NO_DATA
         currentAvatar = intent.getStringExtra(mya)?:""
@@ -85,13 +85,18 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
     }
 
     private fun update(lst: MutableList<User>) {
-        adapter.items = lst
-        Log.d("aba aq", lst.toString())
+        val newLst = mutableListOf<User>()
+        for (user in lst) {
+            if (user.username == currentUsername) continue
+            newLst.add(user)
+        }
+        adapter.items = newLst
+     //   Log.d("aba aq", lst.toString())
         adapter.notifyDataSetChanged()
     }
 
     override fun onClickListener(user: User) {
-        Log.d("adsadasdsdsd","mamsndad")
+       // Log.d("adsadasdsdsd","mamsndad")
         var intent = Intent(this, ChatActivity::class.java).apply {
             putExtra(ChatActivity.tonick, user.nickname)
             putExtra(ChatActivity.tomail, user.username)

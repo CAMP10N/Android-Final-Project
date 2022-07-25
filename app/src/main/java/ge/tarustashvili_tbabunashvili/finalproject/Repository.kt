@@ -38,10 +38,10 @@ class Repository (context: Context/*application: Application*/) {
                     username = it.child("username").getValue<String>(),
                     avatar = it.child("avatar").getValue<String>()
                 ))
-                Log.d("ratom", "gamirbixar")
+              //  Log.d("ratom", "gamirbixar")
 
             }.addOnFailureListener {
-                Log.d("ratom", "memalebi")
+              //  Log.d("ratom", "memalebi")
             }
         }
         loggedOutLiveData.postValue(firebaseAuth.currentUser == null)
@@ -66,16 +66,16 @@ class Repository (context: Context/*application: Application*/) {
         firebaseAuth.createUserWithEmailAndPassword(nickname,password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Log.d("ha","shig")
+                  //  Log.d("ha","shig")
                     userLiveData.postValue(firebaseAuth.currentUser);
                     val newUser = User(username = nickname, nickname = nickname.substringBefore("@android.com"), job = job)
-                    Log.d("shigxoargaq", firebaseAuth.currentUser?.uid!!)
+                  //  Log.d("shigxoargaq", firebaseAuth.currentUser?.uid!!)
                     users.child(firebaseAuth.currentUser?.uid!!).setValue(newUser)
                         .addOnCompleteListener {
-                            Log.d("wtf", it.toString())
+                          //  Log.d("wtf", it.toString())
                         }
                         .addOnFailureListener {
-                            Log.d("tff", it.toString())
+                          //  Log.d("tff", it.toString())
                         }
                     /*
                         .addOnFailureListener {
@@ -89,24 +89,24 @@ class Repository (context: Context/*application: Application*/) {
                 }   else {
                     //    progressDialog.dismiss()
                     Toast.makeText(c, "You were not registered", Toast.LENGTH_LONG).show()
-                    Log.d("er", it.exception.toString())
+                  //  Log.d("er", it.exception.toString())
                 }
             }
             .addOnFailureListener {
                 Toast.makeText(c, "failed to register", Toast.LENGTH_LONG)
-                Log.d("fail", "failed to register")
+                    //  Log.d("fail", "failed to register")
                 throw it
             }
     }
 
     fun login(nickname: String, password: String){
-        Log.d("haa", "Wtf")
+       // Log.d("haa", "Wtf")
         firebaseAuth.signInWithEmailAndPassword(nickname,password)
             .addOnSuccessListener {
                 userLiveData.postValue(firebaseAuth.currentUser)
             }
             .addOnFailureListener {
-                Log.d("asd",it.toString())
+              //  Log.d("asd",it.toString())
                 Toast.makeText(c, "Log in failed", Toast.LENGTH_LONG).show()
             }
     }
@@ -118,12 +118,12 @@ class Repository (context: Context/*application: Application*/) {
     }
 
     fun updateInfo(user: User) {
-        Log.d("aq xo111 ", "shemodixar")
+       // Log.d("aq xo111 ", "shemodixar")
         users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
         currentUser.postValue(user)
         val signedUser = firebaseAuth.currentUser
         users.child(firebaseAuth.currentUser?.uid!!).setValue(user)
-        Log.d("aq xo ", "shemodixar")
+      //  Log.d("aq xo ", "shemodixar")
     }
 
     fun uploadImage(user: User, uri: Uri) {

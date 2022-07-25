@@ -24,7 +24,7 @@ class SearchAdapter(var searchActivity: SearchActivity, var items: MutableList<U
                 .into(holder.pfp)
         }
         holder.name.text = items[position].nickname
-        Log.d("friendlist", holder.name.text.toString())
+     //   Log.d("friendlist", holder.name.text.toString())
         holder.job.text = items[position].job
         holder.itemView.setOnClickListener{
             listener.onClickListener(items[position])
