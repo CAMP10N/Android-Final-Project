@@ -19,4 +19,9 @@ class ChatViewModel(val rep: ChatRepository): ViewModel() {
     fun getConvos(): MutableLiveData<MutableList<Message>?> {
         return rep.getConvos()
     }
+
+    fun updateConversation(from: String, to: String, time: Date, message: String, avatarFrom: String, avatarTo: String,
+                           nicknameFrom: String, nicknameTo: String) {
+        rep.updateConversation(from,to,time,message,avatarFrom,avatarTo, nicknameFrom, nicknameTo)
+    }
 }

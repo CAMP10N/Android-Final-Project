@@ -27,6 +27,7 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
     private lateinit var currentUsername:String
     private lateinit var currentNickname:String
     private lateinit var currentJob: String
+    private lateinit var currentAvatar: String
     private val lst = mutableListOf<User>()
     private var adapter = SearchAdapter(this,lst,this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +39,11 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
                 update(it)
             }
         })
-        currentUsername = intent.getStringExtra("current username")?: NO_DATA
+        currentUsername = intent.getStringExtra(myun)?: NO_DATA
         Log.d("user in intent", currentUsername)
-        currentNickname = intent.getStringExtra("current nickname")?: NO_DATA
-        currentJob = intent.getStringExtra("current job")?: NO_DATA
-
+        currentNickname = intent.getStringExtra(myn)?: NO_DATA
+        currentJob = intent.getStringExtra(myj)?: NO_DATA
+        currentAvatar = intent.getStringExtra(mya)?:""
         findViewById<RecyclerView>(R.id.friendlist).adapter = adapter
         findViewById<EditText>(R.id.searchfriends).addTextChangedListener(object : TextWatcher {
 
@@ -76,6 +77,13 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
 
     }
 
+    companion object {
+        const val myun = "my username"
+        const val myj = "my job"
+        const val myn = "my nickname"
+        const val mya = "my avatar"
+    }
+
     private fun update(lst: MutableList<User>) {
         adapter.items = lst
         Log.d("aba aq", lst.toString())
@@ -85,11 +93,13 @@ class SearchActivity : AppCompatActivity(), FriendListListener {
     override fun onClickListener(user: User) {
         Log.d("adsadasdsdsd","mamsndad")
         var intent = Intent(this, ChatActivity::class.java).apply {
-            putExtra(ChatActivity.nick, user.nickname)
-            putExtra(ChatActivity.mail, user.username)
-            putExtra(ChatActivity.job, user.job)
-            putExtra(ChatActivity.pfp, user.avatar)
-            putExtra(ChatActivity.from, currentUsername)
+            putExtra(ChatActivity.tonick, user.nickname)
+            putExtra(ChatActivity.tomail, user.username)
+            putExtra(ChatActivity.tojob, user.job)
+            putExtra(ChatActivity.topfp, user.avatar)
+            putExtra(ChatActivity.frommail, currentUsername)
+            putExtra(ChatActivity.fromnick, currentNickname)
+            putExtra(ChatActivity.frompfp, currentAvatar)
         }
         startActivity(intent)
     }

@@ -97,9 +97,10 @@ class UserActivity : AppCompatActivity() {
     fun onSearchClick(view: View) {
         Log.d("user in user", currentUser.username ?: "nothing easy")
         var intent = Intent(this, SearchActivity::class.java).apply {
-            putExtra("current nickname", currentUser.nickname)
-            putExtra("current job", currentUser.job)
-            putExtra("current username", currentUser.username)
+            putExtra(SearchActivity.myn, currentUser.nickname)
+            putExtra(SearchActivity.myj, currentUser.job)
+            putExtra(SearchActivity.myun, currentUser.username)
+            putExtra(SearchActivity.mya, currentUser.avatar)
         }
         startActivity(intent)
 

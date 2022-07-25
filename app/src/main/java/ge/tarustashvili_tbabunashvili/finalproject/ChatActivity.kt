@@ -43,6 +43,9 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var backToolbarButton: ImageButton
     private lateinit var backButton: ImageButton
     private lateinit var currentUsername: String
+    private lateinit var currentNickname: String
+    private lateinit var currentAvatar: String
+    private lateinit var toAvatar: String
     private lateinit var toUserName: String
     private lateinit var chat: RecyclerView
     private lateinit var scroll: ScrollView
@@ -64,11 +67,13 @@ class ChatActivity : AppCompatActivity() {
         backButton = findViewById(R.id.back_back)
         chat = findViewById(R.id.chat)
         scroll = findViewById(R.id.chat_scroll)
-        toNicknamestr = intent.getStringExtra(nick)?: NO_DATA
-        toJobstr = intent.getStringExtra(job)?: NO_DATA
-        currentUsername = intent.getStringExtra(from)?: NO_DATA
-        toUserName = intent.getStringExtra(mail)?: NO_DATA
-
+        toNicknamestr = intent.getStringExtra(tonick)?: NO_DATA
+        toJobstr = intent.getStringExtra(tojob)?: NO_DATA
+        currentUsername = intent.getStringExtra(frommail)?: NO_DATA
+        toUserName = intent.getStringExtra(tomail)?: NO_DATA
+        toAvatar = intent.getStringExtra(topfp)?: ""
+        currentNickname = intent.getStringExtra(fromnick)?: NO_DATA
+        currentAvatar = intent.getStringExtra(frompfp)?:""
         messageField = findViewById<EditText>(R.id.message_edit_text)
         chatViewModel.registerListener(currentUsername,toUserName)
 
@@ -90,7 +95,7 @@ class ChatActivity : AppCompatActivity() {
 
         toNameNPoscoll.text = finalText
 
-        toPfpstr = intent.getStringExtra(pfp)?: NO_DATA
+        toPfpstr = intent.getStringExtra(topfp)?: NO_DATA
         toNickname.text = toNicknamestr
         toJob.text = toJobstr
         if (toPfpstr != NO_DATA) {
@@ -128,11 +133,13 @@ class ChatActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val nick = "user nickname"
-        const val job = "job"
-        const val pfp = "profile picture"
-        const val from = "from user"
-        const val mail = "user username"
+        const val tonick = "to user nickname"
+        const val tojob = "to user job"
+        const val topfp = "to user profile picture"
+        const val tomail = "to user username"
+        const val fromnick = "from user nickname"
+        const val frommail = "from user username"
+        const val frompfp = "from user profile picture"
     }
 
     fun updateData(messages: MutableList<Message>)   {
@@ -149,6 +156,7 @@ class ChatActivity : AppCompatActivity() {
         Log.d("useri", currentUsername)
         if (message != "") {
             chatViewModel.sendMessage(currentUsername, to, message, date)
+            chatViewModel.updateConversation(currentUsername,to, date, message,  currentAvatar,toAvatar, currentNickname, toNicknamestr)
         }
         messageField.setText("")
     }

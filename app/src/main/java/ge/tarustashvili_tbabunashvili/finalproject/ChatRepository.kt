@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import ge.tarustashvili_tbabunashvili.finalproject.data.model.Conversation
 import ge.tarustashvili_tbabunashvili.finalproject.data.model.Message
 import java.util.*
 
@@ -68,7 +69,7 @@ class ChatRepository(context: Context/*application: Application*/) {
             )
         }
         Log.d("conversation", "ar amatebs")
-        updateConversation(from,to)
+       /* updateConversation(from,to)
         Log.d("conversation222", "ar amatebs222")
         conversations.push().key?.let {
             conversations.child(it).setValue(
@@ -80,10 +81,28 @@ class ChatRepository(context: Context/*application: Application*/) {
                     comb = getCombined(from, to)
                 )
             )
-        }
+        }*/
     }
 
-    fun updateConversation(from: String, to: String) {
+
+    /*
+    var convId: String? = null,
+    val comb: String? = null,
+    val message: String? = null,
+    val date: Date? = null,
+    val from: String? = null,
+    val to: String? = null,
+    val avatarFrom: String? = null,
+    val avatarTo: String? = null,
+    val nicknameFrom: String? = null,
+    val nicknameTo: String? = null
+     */
+
+    fun updateConversation(from: String, to: String, time: Date, message: String, avatarFrom: String, avatarTo: String,
+                                nicknameFrom: String, nicknameTo: String) {
+        removeConvo(getCombined(from,to))
+        writeNewConvo(from,to,time,message,avatarFrom,avatarTo, nicknameFrom, nicknameTo)
+/*
         conversations
             .orderByChild("comb")
             .equalTo(getCombined(from,to))
@@ -97,10 +116,44 @@ class ChatRepository(context: Context/*application: Application*/) {
             }
             .addOnFailureListener {
                 Log.d("vasdasdsd", it.toString())
+            }*/
+    }
+
+    private fun removeConvo(comb: String) {
+        conversations
+            .orderByChild("comb")
+            .equalTo(comb)
+            .get()
+            .addOnSuccessListener {
+                Log.d("ma",it.children.toString())
+                var messageList = mutableListOf<Message>()
+                for (obj in it.children) {
+                    obj.key?.let { it1 -> conversations.child(it1).removeValue()}
+                }
+            }
+            .addOnFailureListener {
+                Log.d("vasdasdsd", it.toString())
             }
     }
 
-
+    private fun writeNewConvo(from: String, to: String, time: Date, message: String, avatarFrom: String, avatarTo: String,
+                              nicknameFrom: String, nicknameTo: String) {
+        conversations.push().key?.let {
+            conversations.child(it).setValue(
+                Conversation(
+                    comb = getCombined(from,to),
+                    from = from,
+                    to = to,
+                    date = time,
+                    message = message,
+                    avatarFrom = avatarFrom,
+                    avatarTo = avatarTo,
+                    nicknameFrom = nicknameFrom,
+                    nicknameTo = nicknameTo
+                )
+            )
+        }
+    }
     fun registerMessagesListener(from: String, to: String) {
         val registerTime = Date()
 
